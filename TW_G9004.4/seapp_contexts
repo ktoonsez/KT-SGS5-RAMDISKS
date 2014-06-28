@@ -69,6 +69,8 @@ user=oneseg name=com.nextreaming.player.apps domain=oneseg_apk type=oneseg_data_
 user=oneseg name=com.access.bml domain=oneseg_apk type=oneseg_data_file
 user=_app seinfo=dm3lmdocomo domain=carrier_app type=app_data_file
 user=_app seinfo=fixmo domain=fixmo_app type=fixmo_app_data_file
+user=_app seinfo=trustonicpartner domain=trustonicpartner_app type=app_data_file
+user=_app seinfo=good_trustonicpartner domain=trustonicpartner_app type=app_data_file
 user=_app seinfo=jpnandroidggm domain=carrier_app type=app_data_file
 user=_app seinfo=jpnnttdocomo domain=carrier_app type=app_data_file
 user=_app seinfo=jpnbridgelauncher domain=carrier_app type=app_data_file
@@ -89,3 +91,4 @@ user=_app seinfo=jpnhanashite domain=carrier_app type=app_data_file
 user=_app seinfo=jpnid domain=carrier_app type=app_data_file
 user=_app seinfo=jpnrwpushcontroller domain=carrier_app type=app_data_file
 user=_app seinfo=jpntoruca domain=carrier_app type=app_data_file
+user=_app seinfo=jpnja15 domain=carrier_app type=app_data_file

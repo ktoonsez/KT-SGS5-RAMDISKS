@@ -526,6 +526,33 @@ on boot
     chown system radio /sys/class/sensors/ssp_sensor/ssp_flush
     chmod 0600 /dev/batch_io
     chown system system /dev/batch_io
+    chmod 0600 /dev/ssp_sensorhub
+    chown system system /dev/ssp_sensorhub
+# IIO devices for SensorHub
+    chmod 0600 /dev/iio:device0
+    chown system system /dev/iio:device0
+    chmod 0600 /dev/iio:device1
+    chown system system /dev/iio:device1
+    chmod 0600 /dev/iio:device2
+    chown system system /dev/iio:device2
+    chmod 0600 /dev/iio:device3
+    chown system system /dev/iio:device3
+    chmod 0600 /dev/iio:device4
+    chown system system /dev/iio:device4
+    chmod 0600 /dev/iio:device5
+    chown system system /dev/iio:device5
+    chown system system /sys/bus/iio/devices/iio:device0/buffer/length
+    chown system system /sys/bus/iio/devices/iio:device0/buffer/enable
+    chown system system /sys/bus/iio/devices/iio:device1/buffer/length
+    chown system system /sys/bus/iio/devices/iio:device1/buffer/enable
+    chown system system /sys/bus/iio/devices/iio:device2/buffer/length
+    chown system system /sys/bus/iio/devices/iio:device2/buffer/enable
+    chown system system /sys/bus/iio/devices/iio:device3/buffer/length
+    chown system system /sys/bus/iio/devices/iio:device3/buffer/enable
+    chown system system /sys/bus/iio/devices/iio:device4/buffer/length
+    chown system system /sys/bus/iio/devices/iio:device4/buffer/enable
+    chown system system /sys/bus/iio/devices/iio:device5/buffer/length
+    chown system system /sys/bus/iio/devices/iio:device5/buffer/enable
 # Gesture_sensor
     chown system radio /sys/class/sensors/gesture_sensor/vendor
     chown system radio /sys/class/sensors/gesture_sensor/name
@@ -660,11 +687,17 @@ service qcamerasvr /system/bin/mm-qcamera-daemon
     user camera
     group camera system inet input graphics radio sdcard_rw sdcard_r media_rw shell log
 
+#start gesture server as daemon
+service qgesturesvr /system/bin/mm-gesture-daemon
+    class late_start
+    user system
+    group system camera input graphics net_bt_stack
+
 #start GNSS/Sensor interface daemon
 service gsiff_daemon /system/bin/gsiff_daemon
     class late_start
-    user system
-    group gps qcom_oncrpc net_raw
+    user gps
+    group gps net_raw misc
 
 service qrngd /system/bin/qrngd -f
    class main
@@ -680,7 +713,13 @@ service qrngp /system/bin/qrngp
 
 on property:sys.boot_completed=1
     start qrngp
-
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+    chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 300000
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_booted
+    chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_booted
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_booted 1
+    
 service qseecomd /system/bin/qseecomd
    class late_start
    user root
@@ -688,13 +727,14 @@ service qseecomd /system/bin/qseecomd
 
 service mpdecision /system/bin/mpdecision --avg_comp
    user root
-   group system
    disabled
+   oneshot
 
 service thermal-engine /system/bin/thermal-engine
-   class core
+   class main
    user root
-   group radio system
+   group root
+   oneshot
 
 service time_daemon /system/bin/time_daemon
    class late_start

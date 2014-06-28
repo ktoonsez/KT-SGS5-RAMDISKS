@@ -27,6 +27,20 @@ on post-fs-data
     chown system system /data/privatemode
     restorecon /data/privatemode
 
+# SSWAP
+    write /proc/sys/vm/swappiness 130
+
+## mount carreir partition for SPR model ##
+on init
+    mkdir /carrier 0771 system system
+
+on fs
+    wait /dev/block/platform/msm_sdcc.1/by-name/carrier
+    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/carrier /carrier nosuid nodev barrier=1
+    chown system system /carrier
+    chmod 0771 /carrier
+    restorecon -R /carrier
+
 on boot
 # permission for Input Device(Touchkey).
     chmod 0660 /sys/class/input/input1/enabled
@@ -67,9 +81,6 @@ on boot
 
 # Fingerprint
     mkdir /dev/validity 0770 system system
-
-# SSWAP
-    write /proc/sys/vm/swappiness 130
 
 # SENSOR FRAMEWORK : starts fingerprintService
 service vcsFPService /system/bin/vcsFPService
@@ -121,12 +132,25 @@ service privatemode /system/bin/sdcard /data/privatemode /mnt/shell/privatemode 
 
 # TODO: replace it with device's DEXPREOPT_BOOT_JARS
 
+# AT Distributor for factory test
+service at_distributor /system/bin/at_distributor
+    class late_start
+    user root
+    group radio misc loggroup radio misc log
+
+# diag app for cp uart
+service diag_uart_log /system/bin/diag_uart_log
+    class main
+    user root
+    group radio
+
 # IPSec for VOLTE
 service ipsec-daemon /system/bin/IPSecService
     class main
     socket ipsec_socket stream 660 root system    
     user root
     group system
+
 # service for TZPR provisioning version check app
 service scranton_RD /system/bin/scranton_RD
     class main
@@ -146,11 +170,20 @@ on property:sys.qseecomd.enable=true
 service privatemode /system/bin/sdcard /data/privatemode /mnt/shell/privatemode 1000 1000
     class late_start
     oneshot
+
+# umount service
+service umount_service /system/bin/umount /preload
+    disabled
+    oneshot
     
 # Support Preload install apks
 on property:persist.sys.storage_preload=1
     mount ext4 /dev/block/platform/msm_sdcc.1/by-name/hidden /preload nosuid nodev ro barrier=1
     setprop storage.preload.complete 1
+
+on property:persist.sys.storage_preload=0
+    start umount_service
+
 
 #InsideSecure VPN Client
 service vpnclientpm /system/bin/vpnclientpm -u 1000 -g 1000 \
@@ -171,3 +204,20 @@ service swapon /sbin/sswap -s
     seclabel u:r:sswap:s0
     oneshot
 
+#
+# VOWIFI - This RILD defined here will override the service defined
+# in the main init.rc to support Sprint VoWiFi project
+#
+service ril-daemon /system/bin/rild
+    class main
+    socket rild stream 660 root radio
+    socket rild-debug stream 660 radio system
+    socket rild-cas stream 660 casdrm mmb
+#
+# VoWiFi: Added cfiat and kipc socket for Sprint VoWiFi project.
+    socket cfiat stream 660 radio inet
+    socket kipc stream 660 radio inet
+# End of VoWiFi
+#
+    user root
+    group radio cache inet misc audio log qcom_diag system drmrpc

@@ -302,7 +302,7 @@ on post-fs-data
     mkdir /data/system 0775 system system
 
     #Create directories for gpsone_daemon services
-    mkdir /data/misc/gpsone_d 0770 system system
+    mkdir /data/misc/gpsone_d 0770 system gps
 
     #Create directories for QuIPS
     mkdir /data/misc/quipc 0770 gps system
@@ -426,7 +426,7 @@ service qmiproxy /system/bin/qmiproxy
 service qmuxd /system/bin/qmuxd
     class main
     user radio
-    group radio audio bluetooth gps qcom_diag log
+    group radio audio bluetooth gps qcom_diag
     disabled
 
 service netmgrd /system/bin/netmgrd

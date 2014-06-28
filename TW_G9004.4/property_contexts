@@ -81,5 +81,3 @@ persist.security.mdm.       u:object_r:policy_mgmt_prop:s0
 cdma.home.	u:object_r:radio_prop:s0
 #line 1 "vendor/samsung/common/sepolicy/qcom_common/carrier_tfntmo/property_contexts"
 #cdma.home.	u:object_r:radio_prop:s0
-#line 1 "vendor/samsung/common/sepolicy/qcom_common/carrier_tfntmo/property_contexts"
-#cdma.home.	u:object_r:radio_prop:s0
