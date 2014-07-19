@@ -35,10 +35,9 @@ on early-init
     chown system system /sys/fs/selinux/commit_pending_bools
 
 on init
-
-sysclktz 0
-
-loglevel 3
+    setprop ro.boot.selinux 0
+    sysclktz 0
+    loglevel 3
 
 # Backward compatibility
     symlink /system/etc /etc
@@ -194,6 +193,7 @@ on post-fs
     mkdir /cache/lost+found 0770 root root
 
 on post-fs-data
+
     # We chown/chmod /data again so because mount is run as root + defaults
     chown system system /data
     chmod 0771 /data
@@ -282,7 +282,7 @@ on post-fs-data
     mkdir /data/security 0711 system system
 
     # Reload policy from /data/security if present.
-    setprop selinux.reload_policy 1
+    setprop selinux.reload_policy 0
 
     # Set SELinux security contexts on upgrade or policy update.
     restorecon_recursive /data
