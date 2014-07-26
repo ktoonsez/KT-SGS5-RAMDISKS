@@ -379,6 +379,7 @@ on post-fs-data
     # MTP permission
     chmod 0660 /dev/usb_mtp_gadget
     chown system mtp /dev/usb_mtp_gadget
+    mkdir /dev/socket/mtp 0770 system mtp
 
     # symlink to bugreport storage location
     symlink /data/data/com.android.shell/files/bugreports /data/bugreports
@@ -419,6 +420,9 @@ on boot
 # reset_reason
     chown system system /proc/reset_reason
     chmod 0600 /proc/reset_reason
+
+# Mobicore
+    mkdir /data/app/mcRegistry 0775 system system
 
 # MUIC
     chown radio system /sys/class/sec/switch/usb_sel

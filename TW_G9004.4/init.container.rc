@@ -10,6 +10,15 @@ on init
 
     export SECONDARY_STORAGE /storage/extSdCard
 
+    chown system system /dev/dek_evt
+    chmod 600 /dev/dek_evt
+
+    chown system system /dev/dek_req
+    chmod 666 /dev/dek_req
+
+    chown system system /dev/dek_kek
+    chmod 666 /dev/dek_kek
+
 on post-fs-data
 
     # create knox filesystem structure
