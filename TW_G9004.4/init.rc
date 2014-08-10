@@ -34,8 +34,10 @@ on early-init
 on init
     ffu
     setprop ro.boot.selinux 0
-    sysclktz 0
-    loglevel 3
+
+sysclktz 0
+
+loglevel 3
 
 # for audit message
     chown system system /proc/avc_msg
