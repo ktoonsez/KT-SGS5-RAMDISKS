@@ -35,9 +35,10 @@ on early-init
     chown system system /sys/fs/selinux/commit_pending_bools
 
 on init
-    setprop ro.boot.selinux 0
-    sysclktz 0
-    loglevel 3
+
+sysclktz 0
+
+loglevel 3
 
 # Backward compatibility
     symlink /system/etc /etc
@@ -193,7 +194,6 @@ on post-fs
     mkdir /cache/lost+found 0770 root root
 
 on post-fs-data
-
     # We chown/chmod /data again so because mount is run as root + defaults
     chown system system /data
     chmod 0771 /data

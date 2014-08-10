@@ -8,6 +8,8 @@ on boot
 # permission for Input Device(Touchkey).
     chmod 0660 /sys/class/input/input1/enabled
     chown system system /sys/class/input/input1/enabled
+    chmod 0660 /sys/class/input/input2/enabled
+    chown system system /sys/class/input/input2/enabled
     chown radio system /sys/class/sec/sec_touchkey/touch_sensitivity
     chown radio system /sys/class/sec/sec_touchkey/touchkey_firm_update
     chown system radio /sys/class/sec/sec_touchkey/glove_mode

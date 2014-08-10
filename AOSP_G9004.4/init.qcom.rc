@@ -63,6 +63,9 @@ on init
     symlink /storage/sdcard1 /external_sd
     symlink /storage/usbdisk /usbdisk
     symlink /storage/usbdisk /mnt/usbdisk
+    
+    setenforce 0
+    setprop ro.boot.selinux 0
 
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
@@ -256,36 +259,6 @@ on post-fs
     #write /sys/devices/system/cpu/cpu1/online 1
     #write /sys/devices/system/cpu/cpu2/online 1
     #write /sys/devices/system/cpu/cpu3/online 1
-
-    write /proc/sys/kernel/panic_on_oops 1
-    write /proc/sys/kernel/hung_task_timeout_secs 0
-    write /proc/cpu/alignment 4
-    write /proc/sys/kernel/sched_latency_ns 10000000
-    write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
-    write /proc/sys/kernel/sched_compat_yield 1
-    write /proc/sys/kernel/sched_child_runs_first 0
-    write /proc/sys/kernel/randomize_va_space 2
-    write /proc/sys/kernel/kptr_restrict 2
-    write /proc/sys/kernel/dmesg_restrict 1
-    write /proc/sys/vm/mmap_min_addr 32768
-    write /proc/sys/net/ipv4/ping_group_range "0 2147483647"
-    write /proc/sys/kernel/sched_rt_runtime_us 950000
-    write /proc/sys/kernel/sched_rt_period_us 1000000
-
-    # Permissions for System Server and daemons.
-    chown radio system /sys/android_power/state
-    chown radio system /sys/android_power/request_state
-    chown radio system /sys/android_power/acquire_full_wake_lock
-    chown radio system /sys/android_power/acquire_partial_wake_lock
-    chown radio system /sys/android_power/release_wake_lock
-    chown system system /sys/power/autosleep
-    chown system system /sys/power/state
-    chown system system /sys/power/wakeup_count
-    chown radio system /sys/power/wake_lock
-    chown radio system /sys/power/wake_unlock
-    chmod 0660 /sys/power/state
-    chmod 0660 /sys/power/wake_lock
-    chmod 0660 /sys/power/wake_unlock
 
 # Reload SE Android Policy for MDM
 on property:persist.security.mdm.policy=1
@@ -504,19 +477,6 @@ on property:service.bootanim.exit=1
 
 # msm specific files that need to be created on /data
 on post-fs-data
-    # we will remap this as /mnt/sdcard with the sdcard fuse tool
-    mkdir /data/media 0770 media_rw media_rw
-    chown media_rw media_rw /data/media
-    
-    mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
-
-    # Create the directories used by the Wireless subsystem
-    mkdir /data/misc/wifi 0770 wifi system
-    mkdir /data/misc/wifi/sockets 0770 wifi wifi
-    mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
-    mkdir /data/misc/dhcp 0775 dhcp dhcp
-    chown dhcp dhcp /data/misc/dhcp
-
     # Create the directories used by CnE subsystem
     mkdir /data/connectivity 0771 system system
     chown system system /data/connectivity
@@ -563,10 +523,6 @@ on post-fs-data
     chown system system /sys/devices/platform/msm_sdcc.2/polling
     chown system system /sys/devices/platform/msm_sdcc.3/polling
     chown system system /sys/devices/platform/msm_sdcc.4/polling
-
-    #Create the symlink to qcn wpa_supplicant folder for ar6000 wpa_supplicant
-    mkdir /data/system 0775 system system
-    #symlink /data/misc/wifi/wpa_supplicant /data/system/wpa_supplicant
 
     #Create directories for gpsone_daemon services
     mkdir /data/misc/gpsone_d 0770 system gps
@@ -647,11 +603,6 @@ service qcom-ril-sh /system/bin/sh /init.ril.sh
     class main
     user root
     disabled
-    oneshot
-
-service ril-qmi /system/bin/sh /init.qcom.ril.sh
-    class main
-    user root
     oneshot
 
 on property:vold.decrypt=trigger_restart_framework
