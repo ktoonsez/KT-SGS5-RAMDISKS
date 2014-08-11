@@ -107,17 +107,6 @@ on fs
     chown system system /persdata/absolute 
     chmod 0750 /persdata/absolute
 
-# For Verizon Device Stats Partition
-
-    mkdir /carrier 0744 system system
-
-    wait /dev/block/platform/msm_sdcc.1/by-name/carrier
-    check_fs /dev/block/platform/msm_sdcc.1/by-name/carrier ext4
-    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/carrier /carrier nosuid nodev barrier=1
-
-    chown system system /carrier
-    chmod 0744 /carrier
-
 # service for TZPR provisioning version check app
 service scranton_RD /system/bin/scranton_RD
     class main
