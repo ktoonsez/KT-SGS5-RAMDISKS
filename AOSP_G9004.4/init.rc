@@ -559,11 +559,11 @@ service bootanim /system/bin/bootanimation
     disabled
     oneshot
 
-service sysinit /system/xbin/busybox run-parts /system/etc/init.d/
-    class core
-    user root
-    group shell
-    oneshot
+service sysinit /system/bin/logwrapper /system/xbin/busybox run-parts /system/etc/init.d
+     class late_start
+     user root
+     group shell
+     oneshot
 
 service installd /system/bin/installd
     class main
