@@ -131,20 +131,6 @@ on post-fs
 
 on post-fs-data
 
-    # For disabling softkeys *FIXME*
-    chown root system /sys/class/leds/button-backlight/max_brightness
-    chmod 0664 /sys/class/leds/button-backlight/max_brightness
-
-    chmod 666 /sys/class/leds/torch-sec1/brightness
-    chown system camera /sys/class/leds/torch-sec1/brightness
-
-    chown system system /sys/class/sec/sec_touchkey/keypad_enable
-    chmod 0660 /sys/class/sec/sec_touchkey/keypad_enable
-
-    # Color Calibration
-    chown root system /sys/class/misc/gammacontrol/tuner
-    chmod 0664 /sys/class/misc/gammacontrol/tuner
-
     # we will remap this as /mnt/sdcard with the sdcard fuse tool
     mkdir /data/media 0775 media_rw media_rw
     chown media_rw media_rw /data/media
@@ -204,6 +190,13 @@ on post-fs-data
     chown system system /sys/devices/platform/msm_sdcc.3/polling
     chown system system /sys/devices/platform/msm_sdcc.4/polling
 
+    # For disabling softkeys *FIXME*
+    chown root system /sys/class/leds/button-backlight/max_brightness
+    chmod 0664 /sys/class/leds/button-backlight/max_brightness
+
+    chmod 666 /sys/class/leds/torch-sec1/brightness
+    chown system camera /sys/class/leds/torch-sec1/brightness
+
     #Create the symlink to qcn wpa_supplicant folder for ar6000 wpa_supplicant
     mkdir /data/system 0775 system system
 
@@ -246,12 +239,6 @@ on post-fs-data
 
     #Create a folder for SRS to be able to create a usercfg file
     mkdir /data/data/media 0770 media media
-
-    mkdir /data/misc/media 0700 media media
-
-    # create directory for MediaDrm plug-ins - give drm the read/write access to
-    # the following directory.
-    mkdir /data/mediadrm 0770 mediadrm mediadrm
 
     # Gpio DVS
     chown radio system /sys/class/secgpio_check/secgpio_check_all/secgpio_ctrl
@@ -473,6 +460,7 @@ on boot
 
     #Remove SUID bit for iproute2 ip tool
     chmod 0755 /system/bin/ip
+
 
     chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
 
@@ -719,28 +707,6 @@ on boot
     chown system system /sys/kernel/ipv4/tcp_rmem_max
     chown root radio /proc/cmdline
 
-    # Touchscreen misc
-    chown root system /proc/touchpanel/double_tap_enable
-    chmod 0660 /proc/touchpanel/double_tap_enable
-
-    chown root system /proc/touchpanel/camera_enable
-    chmod 0660 /proc/touchpanel/camera_enable
-
-    chown root system /proc/touchpanel/music_enable
-    chmod 0660 /proc/touchpanel/music_enable
-
-    chown root system /proc/touchpanel/flashlight_enable
-    chmod 0660 /proc/touchpanel/flashlight_enable
-
-    chown root system /proc/touchpanel/keypad_enable
-    chmod 0660 /proc/touchpanel/keypad_enable
-
-    chown system system /sys/devices/virtual/graphics/fb0/cabc
-    chmod 0660 /sys/devices/virtual/graphics/fb0/cabc
-
-    chown system graphics /sys/devices/virtual/graphics/fb0/panel_calibration
-    chmod 0660 /sys/devices/virtual/graphics/fb0/panel_calibration
-
     # Adjust YUV to RGB Conversion(CSC_Conversion)
     chown system media_rw /sys/class/graphics/fb0/csc_cfg
     chmod 0660 /sys/class/graphics/fb0/csc_cfg
@@ -760,27 +726,27 @@ on boot
     chown system system /sys/class/sec/tsp/input/enabled
 
     # Permissions for Camera
-    chown root system /sys/class/camera/rear/rear_camantibanding
-    chown system radio /sys/class/camera/rear/rear_camfw
-    chown system radio /sys/class/camera/rear/rear_camfw_full
-    chown system radio /sys/class/camera/rear/rear_camfw_load
-    chown system radio /sys/class/camera/rear/rear_camtype
-    chown system radio /sys/class/camera/rear/rear_corever
-    chown system radio /sys/class/camera/rear/rear_companionfw_full
-    chown system radio /sys/class/camera/rear/rear_calcheck
-    chown system radio /sys/class/camera/rear/rear_fwcheck
-    chown system radio /sys/class/camera/rear/isp_core
-    chown system radio /sys/class/camera/flash/rear_flash
-    chown system radio /sys/class/camera/front/front_camfw
-    chown system radio /sys/class/camera/front/front_camtype
+   chown root system /sys/class/camera/rear/rear_camantibanding
+   chown system radio /sys/class/camera/rear/rear_camfw
+   chown system radio /sys/class/camera/rear/rear_camfw_full
+   chown system radio /sys/class/camera/rear/rear_camfw_load
+   chown system radio /sys/class/camera/rear/rear_camtype
+   chown system radio /sys/class/camera/rear/rear_corever
+   chown system radio /sys/class/camera/rear/rear_companionfw_full
+   chown system radio /sys/class/camera/rear/rear_calcheck
+   chown system radio /sys/class/camera/rear/rear_fwcheck
+   chown system radio /sys/class/camera/rear/isp_core
+   chown system radio /sys/class/camera/flash/rear_flash
+   chown system radio /sys/class/camera/front/front_camfw
+   chown system radio /sys/class/camera/front/front_camtype
 
     #OTG Test
     chown system radio /sys/class/host_notify/usb_otg/booster
     chmod 0660 /sys/class/host_notify/usb_otg/booster
 
     # Permissions for Audio
-    chown system system /sys/devices/fe12f000.slim/es705-codec-gen0/keyword_grammar_path
-    chown system system /sys/devices/fe12f000.slim/es705-codec-gen0/keyword_net_path
+   chown system system /sys/devices/fe12f000.slim/es705-codec-gen0/keyword_grammar_path
+   chown system system /sys/devices/fe12f000.slim/es705-codec-gen0/keyword_net_path
 
     # Accelerometer_sensor
     chown system radio /sys/class/sensors/accelerometer_sensor/raw_data
@@ -944,7 +910,7 @@ on boot
 
     # NFC_NXP
     setprop ro.nfc.port "I2C"
-    chmod 0600 /dev/pn547
+    chmod 0660 /dev/pn547
     chown nfc nfc /dev/pn547
 
     # NFC_BROADCOM
@@ -990,9 +956,6 @@ on boot
     # Permissions for gpio_keys
     chown system radio /sys/class/sec/sec_key/hall_irq_ctrl
 
-    # IR_LED
-    chown system radio /sys/class/sec/sec_ir/ir_send
-    chown system radio /sys/class/sec/sec_ir/ir_send_result
     # Permission for HALL IC
     chown system radio /sys/class/sec/sec_key/hall_detect
     # Define TCP buffer sizes for various networks
@@ -1087,56 +1050,20 @@ on boot
 
 # Services begin here
 
-service at_distributor /system/bin/at_distributor
-    class late_start
-    user root
-    group radio log
-
-service surfaceflinger /system/bin/surfaceflinger
+service adsprpcd /system/bin/adsprpcd
     class main
-    user system
-    group graphics drmrpc
-    onrestart restart zygote
-    onrestart restart gsiff_daemon
-
-service sensors /system/bin/sensors.qcom
-    class late_start
-    user root
-    group root
-    disabled
+    user media
+    group media
 
 service qcamerasvr /system/bin/mm-qcamera-daemon
     class main
     user camera
     group camera system inet input graphics radio sdcard_rw sdcard_r media_rw shell log
 
-service adsprpcd /system/bin/adsprpcd
-   class main
-   user media
-   group media
-
 service gsiff_daemon /system/bin/gsiff_daemon
     class late_start
     user system
-    group gps qcom_oncrpc net_raw misc
-
-service location_mq /system/bin/location-mq
-    class late_start
-    user gps
-    group gps
-    disabled
-
-service xtwifi_inet /system/bin/xtwifi-inet-agent
-    class late_start
-    user gps
-    group inet gps
-    disabled
-
-service xtwifi_client /system/bin/xtwifi-client
-    class late_start
-    user gps
-    group net_admin wifi inet gps
-    disabled
+    group gps qcom_oncrpc net_raw
 
 service qrngd /system/bin/qrngd -f
     class main
@@ -1189,24 +1116,6 @@ service rmt_storage /system/bin/rmt_storage
     class core
     user root
 
-service port-bridge /system/bin/port-bridge /dev/smd0 /dev/ttyGS0
-    class late_start
-    user system
-    group system inet
-    disabled
-
-service bridgemgrd /system/bin/bridgemgrd
-    class late_start
-    user radio
-    group radio qcom_diag
-    disabled
-
-service qmiproxy /system/bin/qmiproxy
-    class main
-    user radio
-    group radio qcom_diag
-    disabled
-
 service qmuxd /system/bin/qmuxd
     class core
     user radio
@@ -1214,14 +1123,6 @@ service qmuxd /system/bin/qmuxd
 
 service netmgrd /system/bin/netmgrd
     class main
-
-service mtpd /system/bin/mtpd
-    class main
-    socket mtpd stream 600 system system
-    user vpn
-    group vpn net_admin inet net_raw
-    disabled
-    oneshot
 
 service wpa_supplicant /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
@@ -1327,18 +1228,6 @@ on property:crypto.driver.load=1
 on property:crypto.driver.load=0
      exec /system/bin/rmmod qcedev.ko
      exec /system/bin/rmmod qce.ko
-
-service drmdiag /system/bin/drmdiagapp
-    class late_start
-     user root
-     disabled
-     oneshot
-
-on property:drmdiag.load=1
-    start drmdiag
-
-on property:drmdiag.load=0
-    stop drmdiag
 
 service wifi-crda /system/bin/sh /system/etc/init.crda.sh
    class late_start
@@ -1463,31 +1352,6 @@ service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1
 service fuse_usbdisk /system/bin/sdcard -u 1023 -g 1023 /mnt/media_rw/usbdisk /storage/usbdisk
     class late_start
     disabled
-
-service diag_mdlog_start /system/bin/diag_mdlog
-    class late_start
-    user sdcard_rw
-    group system qcom_diag sdcard_rw sdcard_r media_rw
-    disabled
-    oneshot
-
-service diag_mdlog_stop /system/bin/diag_mdlog -k
-    class late_start
-    user sdcard_rw
-    group system qcom_diag sdcard_rw sdcard_r media_rw
-    disabled
-    oneshot
-
-service media /system/bin/mediaserver
-    class main
-    user media
-    group system audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm qcom_diag sdcard_rw sdcard_r media_rw shell qcom_diag lgt_gid
-    ioprio rt 4
-
-# icd
-on property:init.svc.media=restarting
-    check_icd
-    start icd
 
 service scranton_RD /system/bin/scranton_RD
     class main
