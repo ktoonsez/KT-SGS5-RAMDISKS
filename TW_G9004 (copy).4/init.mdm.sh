@@ -1,3 +1,4 @@
+#!/system/bin/sh
 # Copyright (c) 2013, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -25,75 +26,8 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-#
-# start ril-daemon only for targets on which radio is present
-#
+baseband=`getprop ro.baseband`
+if [ "$baseband" = "mdm" ]; then
+	start mdm_helper
+fi
 
-on property:ro.baseband=apq
-    setprop ro.radio.noril yes
-    stop ril-daemon
-#
-# start qmuxd and qmiproxy for appropriate targets
-#
-on property:ro.baseband=msm
-    start qmuxd
-
-on property:ro.baseband=csfb
-    start qmuxd
-    start qmiproxy
-
-on property:ro.baseband=svlte2a
-    start qmuxd
-    start qmiproxy
-
-on property:ro.baseband=mdm
-    start qmuxd
-
-on property:ro.baseband=sglte
-    start qmuxd
-    start qmiproxy
-
-on property:ro.baseband=sglte2
-    start qmuxd
-    start qmiproxy
-
-on property:ro.baseband=dsda2
-    start qmuxd
-    setprop persist.radio.multisim.config dsda
-
-on property:ro.baseband=unknown
-    start qmuxd
-
-on property:persist.radio.sglte_csfb=true
-    stop qmiproxy
-    setprop persist.radio.voice.modem.index 0
-
-#
-# start netmgrd
-#
-on property:ro.use_data_netmgrd=true
-    start netmgrd
-
-#
-# start multiple rilds based on multisim property
-#
-on property:ro.multisim.simslotcount=2
-    stop ril-daemon
-    start ril-daemon
-    start ril-daemon1
-
-on property:persist.radio.multisim.config=dsds
-    stop ril-daemon
-    start ril-daemon
-    start ril-daemon1
-
-on property:persist.radio.multisim.config=dsda
-    stop ril-daemon
-    start ril-daemon
-    start ril-daemon1
-
-on property:persist.radio.multisim.config=tsts
-    stop ril-daemon
-    start ril-daemon
-    start ril-daemon1
-    start ril-daemon2

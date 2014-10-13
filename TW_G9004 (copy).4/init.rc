@@ -167,10 +167,6 @@ loglevel 3
 # checker programs.
     mkdir /dev/fscklogs 0770 root system
 
-# pstore/ramoops previous console log
-    mount pstore pstore /sys/fs/pstore
-    chown system log /sys/fs/pstore/console-ramoops
-    chmod 0440 /sys/fs/pstore/console-ramoops
 # To sync between sdcard & installd
     setprop installd.sdcard_manipulate_done 0
 
@@ -251,7 +247,6 @@ on post-fs-data
     mkdir /data/misc/bluetooth 0770 system system
     mkdir /data/misc/keystore 0700 keystore keystore
     mkdir /data/misc/keychain 0771 system system
-    mkdir /data/misc/radio 0771 system radio
     mkdir /data/misc/sms 0770 system radio
     mkdir /data/misc/zoneinfo 0775 system system
     mkdir /data/misc/vpn 0770 system vpn
@@ -440,14 +435,6 @@ on boot
     chown system radio /sys/class/sec/switch/adc
     chown system radio /sys/class/sec/switch/otg_test
 
-# permission for Input Device(TSP).
-    chmod 0660 /sys/class/sec/tsp/input/enabled
-    chown system system /sys/class/sec/tsp/input/enabled
-
-# permission for Input Device(TKEY).
-    chmod 0660 /sys/class/sec/sec_touchkey/input/enabled
-    chown system system /sys/class/sec/sec_touchkey/input/enabled
-
 # Vibetonz
     chmod 0660 /dev/tspdrv
     chown vibe vibe /dev/tspdrv
@@ -540,7 +527,7 @@ on boot
     chown system system /sys/class/mdnie/mdnie/tuning
     chown system media_rw /sys/class/mdnie/mdnie/outdoor
     chown system system  /sys/class/mdnie/mdnie/mdnie_temp
-    chown system media_rw /sys/class/mdnie/mdnie/mode
+    chown system system /sys/class/mdnie/mdnie/mode
     chown system system /sys/class/mdnie/mdnie/negative
     chown system media_rw /sys/class/mdnie/mdnie/playspeed
     chown system media_rw /sys/class/mdnie/mdnie/accessibility
@@ -631,23 +618,15 @@ on boot
 
 # Permissions for InputDevices.
     chown system radio /sys/class/sec/tsp/cmd
+    chown system system /sys/class/sec/sec_touchkey/brightness
     chmod 0660 /sys/class/sec/tsp/input/enabled
     chown system system /sys/class/sec/tsp/input/enabled
-
-    chmod 0660 /sys/class/sec/sec_touchkey/input/enabled
-    chown system system /sys/class/sec/sec_touchkey/input/enabled
-    chown system system /sys/class/sec/sec_touchkey/brightness
-
-# Permissions for keyboard key combination reject node.
-    chmod 0660 /sys/class/sec/sec_key/reject_key_comb
-    chown system system /sys/class/sec/sec_key/reject_key_comb
 
 # Permissions for Camera
    chown root system /sys/class/camera/rear/rear_camantibanding
    chown system radio /sys/class/camera/rear/rear_camfw
    chown system radio /sys/class/camera/rear/rear_camfw_full
    chown system radio /sys/class/camera/rear/rear_camfw_load
-   chown system radio /sys/class/camera/rear/rear_latest_module_check
    chown system radio /sys/class/camera/rear/rear_camtype
    chown system radio /sys/class/camera/rear/rear_corever
    chown system radio /sys/class/camera/rear/rear_companionfw_full
@@ -731,13 +710,6 @@ on boot
     chown system radio /sys/class/sensors/hrm_sensor/led_current
     chown system radio /sys/class/sensors/hrm_sensor/int_pin_check
     chown system radio /sys/class/sensors/hrm_sensor/lib_ver
-    chown system radio /sys/class/sensors/hrm_sensor/eol_lib_ver
-    chown system radio /sys/class/sensors/hrm_sensor/elf_lib_ver
-    chown system radio /sys/class/sensors/hrm_sensor/adpd_reg_read
-    chown system radio /sys/class/sensors/hrm_sensor/adpd_reg_write
-    chown system radio /sys/class/sensors/hrm_sensor/adpd_mode
-    chown system radio /sys/class/sensors/hrm_sensor/adpd_configuration
-    chown system radio /sys/class/sensors/hrm_sensor/adpd_stat
     chown system radio /sys/class/sensors/hrm_sensor/name
     chown system radio /sys/class/sensors/hrm_sensor/vendor
 # SensorHub
@@ -747,9 +719,6 @@ on boot
     chown system radio /sys/class/sensors/ssp_sensor/mcu_test
     chown system radio /sys/class/sensors/ssp_sensor/mcu_reset
     chown system radio /sys/class/sensors/ssp_sensor/mcu_update
-    chown system radio /sys/class/sensors/ssp_sensor/mcu_update2
-    chown system radio /sys/class/sensors/ssp_sensor/mcu_update_ums
-    chown system radio /sys/class/sensors/ssp_sensor/mcu_dump
     chown system radio /sys/class/sensors/ssp_sensor/mcu_sleep_test
     chown system radio /sys/class/sensors/ssp_sensor/ori_poll_delay
     chown system radio /sys/class/sensors/ssp_sensor/mag_poll_delay
@@ -788,17 +757,6 @@ on boot
     chown system radio /sys/class/sec/sec_barcode_emul/barcode_led_status
     chown system radio /sys/class/sec/sec_barcode_emul/barcode_ver_check
 
-###############################################################################
-# System LSI
-# Comment : add permission to device driver
-# NFC : Permissions for NFC
-    chmod 0660 /dev/sec-nfc
-# NFC : change owner
-    chown nfc nfc /dev/sec-nfc
-# NFC : create data/nfc for nv storage
-    mkdir /data/nfc 0700 nfc nfc
-
-    
 # NFC_NXP
     setprop ro.nfc.port "I2C"
     chmod 0660 /dev/pn547
@@ -819,28 +777,27 @@ on boot
     chown system system /sys/fs/selinux/enforce
 
 # Permissions for Charging
-    chown system radio /sys/class/power_supply/battery/batt_reset_soc
-    chown system radio /sys/class/power_supply/battery/update
-    chown system radio /sys/class/power_supply/battery/factory_mode
-    chown system radio /sys/class/power_supply/battery/batt_slate_mode
-    chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/call
-    chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/video
-    chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/music
-    chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/browser
-    chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/hotspot
-    chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/camera
-    chown system radio /sys/class/power_supply/battery/talk_wcdma
-    chown system radio /sys/class/power_supply/battery/talk_gsm
-    chown system radio /sys/class/power_supply/battery/call
-    chown system radio /sys/class/power_supply/battery/data_call
-    chown system radio /sys/class/power_supply/battery/gps
-    chown system radio /sys/class/power_supply/battery/wifi
-    chown system radio /sys/class/power_supply/battery/lte
-    chown system radio /sys/class/power_supply/battery/wc_enable
-    chown system radio /sys/class/power_supply/battery/lcd
-    chown system radio /sys/class/power_supply/ps/status
-    chmod 0664 /sys/class/power_supply/ps/status
-    chown system radio /sys/class/power_supply/battery/batt_temp_table
+	chown system radio /sys/class/power_supply/battery/batt_reset_soc
+	chown system radio /sys/class/power_supply/battery/update
+	chown system radio /sys/class/power_supply/battery/factory_mode
+	chown system radio /sys/class/power_supply/battery/batt_slate_mode
+	chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/call
+	chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/video
+	chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/music
+	chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/browser
+	chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/hotspot
+	chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/camera
+	chown system radio /sys/class/power_supply/battery/talk_wcdma
+	chown system radio /sys/class/power_supply/battery/talk_gsm
+	chown system radio /sys/class/power_supply/battery/call
+	chown system radio /sys/class/power_supply/battery/data_call
+	chown system radio /sys/class/power_supply/battery/gps
+	chown system radio /sys/class/power_supply/battery/wifi
+	chown system radio /sys/class/power_supply/battery/lte
+	chown system radio /sys/class/power_supply/battery/wc_enable
+	chown system radio /sys/class/power_supply/battery/lcd
+	chown system radio /sys/class/power_supply/ps/status
+	chmod 0664 /sys/class/power_supply/ps/status
 
 # Permission for fast dormancy for RIL
     chown system radio /sys/devices/virtual/sec/bamdmux/waketime
@@ -866,15 +823,13 @@ on boot
     setprop net.tcp.buffersize.gprs    4092,30000,30000,4096,8760,11680
     setprop net.tcp.buffersize.evdo    4094,87380,262144,4096,16384,262144
 
-# Define default initial receive window size in segments.
-    setprop net.tcp.default_init_rwnd 60
 # Assign TCP buffer thresholds to be ceiling value of technology maximums
 # Increased technology maximums should be reflected here.
     write /proc/sys/net/core/rmem_max  1048576
     write /proc/sys/net/core/wmem_max  2097152
+	
 
-
-    write /sys/block/mmcblk0/queue/scheduler noop
+	write /sys/block/mmcblk0/queue/scheduler noop
 
     class_start core
     class_start main
@@ -890,16 +845,8 @@ on charger
     mount ext4 /dev/block/platform/msm_sdcc.1/by-name/userdata /data nosuid nodev noatime noauto_da_alloc,discard,journal_async_commit,errors=panic
     chown system system /data
     chmod 0771 /data
-
-    mkdir /carrier 0744 system system
-    wait /dev/block/platform/msm_sdcc.1/by-name/carrier 
-    check_fs /dev/block/platform/msm_sdcc.1/by-name/carrier ext4 
-    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/carrier /carrier nosuid nodev barrier=1 
-    chown system system /carrier 
-    chmod 0744 /carrier    
-  
+    
     class_start charger
-    start charger_monitor2
     write /sys/devices/system/cpu/cpu1/online 1
     write /sys/devices/system/cpu/cpu2/online 1
     write /sys/devices/system/cpu/cpu3/online 1
@@ -947,15 +894,9 @@ on property:vold.decrypt=trigger_shutdown_framework
 on property:sys.powerctl=*
     powerctl ${sys.powerctl}
 
-# system server cannot write to /proc/sys files,
-# and chown/chmod does not work for /proc/sys/ entries.
-# So proxy writes through init.
+# system server cannot write to /proc/sys files, so proxy it through init
 on property:sys.sysctl.extra_free_kbytes=*
     write /proc/sys/vm/extra_free_kbytes ${sys.sysctl.extra_free_kbytes}
-# "tcp_default_init_rwnd" Is too long!
-on property:sys.sysctl.tcp_def_init_rwnd=*
-    write /proc/sys/net/ipv4/tcp_default_init_rwnd ${sys.sysctl.tcp_def_init_rwnd}
-
 
 ## Daemon processes to be run by init.
 ##
@@ -1033,7 +974,7 @@ service cs_service /system/bin/cs
     group system
     disabled
 
-on property:sys.qseecomd.enable=true
+on property:init.svc.qseecomd=running
     start cs_service
 
 service ml_service /system/bin/mldaemon
@@ -1056,7 +997,7 @@ service servicemanager /system/bin/servicemanager
     onrestart restart surfaceflinger
     onrestart restart drm
     onrestart restart sensorhubservice
-    onrestart restart TvoutService_C
+	onrestart restart TvoutService_C
 
 service vold /system/bin/vold
     class core
@@ -1077,17 +1018,17 @@ service debuggerd /system/bin/debuggerd
 service DR-daemon /system/bin/ddexe
     class main
     user root
-    group system radio inet net_raw
+	group system radio inet net_raw
 
 service SMD-daemon /system/bin/smdexe
     class main
     user root
-    group system radio inet net_raw
+	group system radio inet net_raw
 
 service BCS-daemon /system/bin/connfwexe
     class main
     user root
-    group system radio inet net_raw
+	group system radio inet net_raw
 
 service at_distributor /system/bin/at_distributor
     class late_start
@@ -1100,11 +1041,11 @@ service diag_uart_log /system/bin/diag_uart_log
     group radio
 
 service prepare_param /system/bin/prepare_param.sh /dev/block/platform/msm_sdcc.1/by-name/param
-    class main
-    user root
-    group root
-    seclabel u:r:prepare_param:s0
-    oneshot
+	class main
+	user root
+	group root
+	seclabel u:r:prepare_param:s0
+	oneshot
 
 # icd
 service icd /system/bin/icd
@@ -1150,10 +1091,13 @@ service drm /system/bin/drmserver
 #    group drm system inet drmrpc
 # ]
 
+service sysinit /system/bin/sysinit
+oneshot
+
 service media /system/bin/mediaserver
     class main
     user media
-    group system audio camera inet net_bt net_bt_admin net_raw net_bw_acct drmrpc mediadrm qcom_diag sdcard_rw sdcard_r media_rw shell qcom_diag lgt_gid radio
+    group system audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm qcom_diag sdcard_rw sdcard_r media_rw shell qcom_diag lgt_gid
     ioprio rt 4
 
 service apaservice /system/bin/apaservice
@@ -1272,13 +1216,12 @@ on property:init.svc.bootanim=stopped
     restorecon /data/media/obb
     start auditd
     start freshsebool
-    start sysprof
 
 # KNOX VPN
 service ipruleset /system/bin/ipruleset
     class main
     group vpn net_admin inet net_raw
-    disabled
+	disabled
     oneshot
 
 service mobex-daemon /system/bin/npsmobex
@@ -1293,10 +1236,10 @@ service SIDESYNC_service /system/bin/ss_conn_daemon
     group inet net_raw
 
 service freshsebool /system/bin/freshsebool
-    class main
-    user root
-    disabled
-    oneshot
+	class main
+	user root
+	disabled
+	oneshot
 
 # icd
 on property:init.svc.media=restarting
@@ -1309,9 +1252,9 @@ service drsd /system/bin/drsd
     socket drsd stream 600 system system
 
 on property:persist.sys.drs.enforce=1
-    restorecon -r /data
-    start drs
-    setprop persist.sys.drs.enforce 0
+	restorecon -r /data
+	start drs
+	setprop persist.sys.drs.enforce 0
 # insthk
 service insthk /system/bin/insthk
     class main
@@ -1335,11 +1278,4 @@ on property:sys.boot_completed=1
 service post-init /sbin/post-init.sh
     class core
     user root
-    oneshot
-
-service sysprof /system/bin/sysprof -f /data/local/tmp/.sysprofctrl -o /data/local/tmp/.sysprofreport -c /data/local/tmp/sysprofconf
-    class main
-    user root
-    group root
-    disabled
     oneshot

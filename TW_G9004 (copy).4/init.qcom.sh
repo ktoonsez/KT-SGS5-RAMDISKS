@@ -44,11 +44,8 @@ start_sensors()
 
         mkdir -p /data/misc/sensors
         chmod -h 775 /data/misc/sensors
-	mkdir -p /efs/sensors
-        chmod -h 775 /efs/sensors
 
         start sensors
-	start factory_adsp
     fi
 }
 
@@ -73,14 +70,14 @@ start_charger_monitor()
 {
 	if ls /sys/module/qpnp_charger/parameters/charger_monitor; then
 		chown -h root.system /sys/module/qpnp_charger/parameters/*
-		chown -h root.system /sys/class/power_supply/qpnp-chg/input_current_max
-		chown -h root.system /sys/class/power_supply/qpnp-chg/input_current_trim
-		chown -h root.system /sys/class/power_supply/qpnp-chg/input_current_settled
-		chown -h root.system /sys/class/power_supply/qpnp-chg/voltage_min
-		chmod -h 0664 /sys/class/power_supply/qpnp-chg/input_current_max
-		chmod -h 0664 /sys/class/power_supply/qpnp-chg/input_current_trim
-		chmod -h 0664 /sys/class/power_supply/qpnp-chg/input_current_settled
-		chmod -h 0664 /sys/class/power_supply/qpnp-chg/voltage_min
+		chown -h root.system /sys/class/power_supply/battery/input_current_max
+		chown -h root.system /sys/class/power_supply/battery/input_current_trim
+		chown -h root.system /sys/class/power_supply/battery/input_current_settled
+		chown -h root.system /sys/class/power_supply/battery/voltage_min
+		chmod -h 0664 /sys/class/power_supply/battery/input_current_max
+		chmod -h 0664 /sys/class/power_supply/battery/input_current_trim
+		chmod -h 0664 /sys/class/power_supply/battery/input_current_settled
+		chmod -h 0664 /sys/class/power_supply/battery/voltage_min
 		chmod -h 0664 /sys/module/qpnp_charger/parameters/charger_monitor
 		start charger_monitor
 	fi

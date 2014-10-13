@@ -1,3 +1,4 @@
+#!/system/bin/sh
 # Copyright (c) 2013, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -25,75 +26,35 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-#
-# start ril-daemon only for targets on which radio is present
-#
+carrier=`getprop persist.env.spec`
+if [ "$carrier" = "ChinaTelecom" ]; then
+    # Update the props.
+    setprop persist.env.phone.global true
+    setprop persist.env.plmn.update true
 
-on property:ro.baseband=apq
-    setprop ro.radio.noril yes
-    stop ril-daemon
-#
-# start qmuxd and qmiproxy for appropriate targets
-#
-on property:ro.baseband=msm
-    start qmuxd
+    # Remount /system with read-write permission for copy action.
+    `mount -o remount,rw /system`
 
-on property:ro.baseband=csfb
-    start qmuxd
-    start qmiproxy
+    # Copy the modules to system app.
+    `cp /system/vendor/ChinaTelecom/system/app/RoamingSettings.apk /system/app/RoamingSettings.apk`
+    `cp /system/vendor/ChinaTelecom/system/app/UniversalDownload.apk /system/app/UniversalDownload.apk`
+    `chmod -h 644 /system/app/RoamingSettings.apk`
+    `chmod -h 644 /system/app/UniversalDownload.apk`
 
-on property:ro.baseband=svlte2a
-    start qmuxd
-    start qmiproxy
+    # Remount /system with read-only
+    `mount -o remount,ro /system`
+else
+    # Update the props.
+    setprop persist.env.phone.global false
+    setprop persist.env.plmn.update false
 
-on property:ro.baseband=mdm
-    start qmuxd
+    # Remount /system with read-write permission for remove action.
+    `mount -o remount,rw /system`
 
-on property:ro.baseband=sglte
-    start qmuxd
-    start qmiproxy
+    # Remove the modules from the system app.
+    `rm /system/app/RoamingSettings.apk`
+    `rm /system/app/UniversalDownload.apk`
 
-on property:ro.baseband=sglte2
-    start qmuxd
-    start qmiproxy
-
-on property:ro.baseband=dsda2
-    start qmuxd
-    setprop persist.radio.multisim.config dsda
-
-on property:ro.baseband=unknown
-    start qmuxd
-
-on property:persist.radio.sglte_csfb=true
-    stop qmiproxy
-    setprop persist.radio.voice.modem.index 0
-
-#
-# start netmgrd
-#
-on property:ro.use_data_netmgrd=true
-    start netmgrd
-
-#
-# start multiple rilds based on multisim property
-#
-on property:ro.multisim.simslotcount=2
-    stop ril-daemon
-    start ril-daemon
-    start ril-daemon1
-
-on property:persist.radio.multisim.config=dsds
-    stop ril-daemon
-    start ril-daemon
-    start ril-daemon1
-
-on property:persist.radio.multisim.config=dsda
-    stop ril-daemon
-    start ril-daemon
-    start ril-daemon1
-
-on property:persist.radio.multisim.config=tsts
-    stop ril-daemon
-    start ril-daemon
-    start ril-daemon1
-    start ril-daemon2
+    # Remount /system with read-only
+    `mount -o remount,ro /system`
+fi

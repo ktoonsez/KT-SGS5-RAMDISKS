@@ -34,7 +34,6 @@ baseband=`getprop ro.baseband`
 sgltecsfb=`getprop persist.radio.sglte_csfb`
 netmgr=`getprop ro.use_data_netmgrd`
 multisimconfig=`getprop persist.radio.multisim.config`
-multisimslotcnt=`getprop ro.multisim.simslotcount`
 
 LOG_TAG="qcom-ril-sh"
 LOG_NAME="${0}:"
@@ -109,12 +108,5 @@ case "$volddecrypt" in
         start ril-daemon
         start ril-daemon1
         start ril-daemon2
-    esac
-    case "$multisimslotcnt" in
-        "2")
-        logi "start ril-daemon1"
-        stop ril-daemon
-        start ril-daemon
-        start ril-daemon1
     esac
 esac
