@@ -326,6 +326,10 @@ on post-fs-data
     chown system radio /sys/class/sensors/grip_sensor/name
     chown system radio /sys/class/sensors/grip_sensor/erase_cal
 
+    # Setup keypad permissions
+    chown system system /sys/class/sec/sec_touchkey/keypad_enable
+    chmod 0660 /sys/class/sec/sec_touchkey/keypad_enable
+
     # h2k permission
     chmod 0644 /efs/redata.bin
     chown radio radio /efs/h2k.dat
