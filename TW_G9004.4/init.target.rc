@@ -87,16 +87,6 @@ on post-fs-data
     mkdir /tombstones/wcnss 0771 system system
     mkdir /tombstones/dsps 0771 system system
 
-on post-fs
-# Mobicore
-    export MC_AUTH_TOKEN_PATH /efs
-
-# set device node permissions for TLC apps
-	chmod 700 /dev/mobicore
-	chmod 666 /dev/mobicore-user
-	chown system system /dev/mobicore
-	chown radio system /dev/mobicore-user
-
 # sensors
     chown system radio /sys/class/sensors/accelerometer_sensor/raw_data
     chown system radio /sys/class/sensors/accelerometer_sensor/calibration
@@ -285,7 +275,7 @@ service usf-post-boot /system/bin/sh /system/etc/usf_post_boot.sh
     disabled
     oneshot
 
-service prepare-mobicore /system/bin/mcStarter tbase300
+service prepare-mobicore /system/bin/sh /system/bin/mobicore-presetup.sh
     class core
 	user root
 	group root
@@ -298,7 +288,7 @@ service run-mobicore /system/bin/sh /system/bin/mobicore-startup.sh
 
 on property:init.svc.bootanim=stopped
     start usf-post-boot
-    start run-mobicore
+	start run-mobicore
 
 service imsqmidaemon /system/bin/imsqmidaemon
     class main
