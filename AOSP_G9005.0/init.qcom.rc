@@ -39,9 +39,6 @@ on early-init
 
     mkdir /efs 0771 system radio
 
-    mkdir /persdata 0755 system system
-    mkdir /persdata/absolute 0750 system system
-
     symlink /data/tombstones /tombstones
 
 on init
@@ -410,7 +407,7 @@ on boot
     chmod 0660 /sys/module/hci_smd/parameters/hcismd_set
     chmod 0660 /sys/class/rfkill/rfkill0/state
     chmod 0660 /proc/bluetooth/sleep/proto
-    chown bluetooth net_bt_stack /dev/ttyHS0
+    chown bluetooth bluetooth /dev/ttyHS0
     chmod 0660 /sys/module/hci_uart/parameters/ath_lpm
     chmod 0660 /sys/module/hci_uart/parameters/ath_btwrite
     chmod 0660 /dev/ttyHS0
@@ -434,8 +431,8 @@ on boot
     # bluetooth LPM
     chmod 0220 /proc/bluetooth/sleep/lpm
     chmod 0220 /proc/bluetooth/sleep/btwrite
-    chown bluetooth net_bt_stack /proc/bluetooth/sleep/lpm
-    chown bluetooth net_bt_stack /proc/bluetooth/sleep/btwrite
+    chown bluetooth bluetooth /proc/bluetooth/sleep/lpm
+    chown bluetooth bluetooth /proc/bluetooth/sleep/btwrite
     chmod 0600 /dev/btlock
     chown bluetooth bluetooth /dev/btlock
 
@@ -1013,18 +1010,18 @@ on boot
 
     # permissions for bluetooth.
     setprop ro.bt.bdaddr_path "/efs/bluetooth/bt_addr"
-    chown bluetooth net_bt_stack ro.bt.bdaddr_path
-    chown radio net_bt_stack /efs/bluetooth/bt_addr
+    chown bluetooth bluetooth ro.bt.bdaddr_path
+    chown radio bluetooth /efs/bluetooth/bt_addr
     chmod 0640 /efs/bluetooth/bt_addr
     chmod 0660 /sys/class/rfkill/rfkill0/state
-    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
-    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
 
     # bluetooth LPM
     chmod 0660 /proc/bluetooth/sleep/lpm
     chmod 0220 /proc/bluetooth/sleep/btwrite
-    chown bluetooth net_bt_stack /proc/bluetooth/sleep/lpm
-    chown bluetooth net_bt_stack /proc/bluetooth/sleep/btwrite
+    chown bluetooth bluetooth /proc/bluetooth/sleep/lpm
+    chown bluetooth bluetooth /proc/bluetooth/sleep/btwrite
     chmod 0600 /dev/btlock
     chown bluetooth bluetooth /dev/btlock
 
@@ -1045,18 +1042,6 @@ service gsiff_daemon /system/bin/gsiff_daemon
     class late_start
     user system
     group gps qcom_oncrpc net_raw
-
-service qrngd /system/bin/qrngd -f
-    class main
-    user root
-    group root
-
-service qrngp /system/bin/qrngp
-    class main
-    user root
-    group root
-    oneshot
-    disabled
 
 service qseecomd /system/bin/qseecomd
     class late_start
@@ -1121,51 +1106,52 @@ service wpa_supplicant /system/bin/wpa_supplicant \
 
 service p2p_supplicant /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
-    -I/system/etc/wifi/p2p_supplicant_overlay.conf  \
-    -puse_p2p_group_interface=1p2p_device=1 \
-    -m/data/misc/wifi/p2p_supplicant.conf \
+    -I/system/etc/wifi/wpa_supplicant_overlay.conf -N \
+    -ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf \
+    -I/system/etc/wifi/p2p_supplicant_overlay.conf \
+    -O/data/misc/wifi/sockets -puse_p2p_group_interface=1 \
     -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0
-    #   we will start as root and wpa_supplicant will switch to user wifi
-    #   after setting up the capabilities required for WEXT
-    #   user wifi
-    #   group wifi inet keystore
+#   we will start as root and wpa_supplicant will switch to user wifi
+#   after setting up the capabilities required for WEXT
+#   user wifi
+#   group wifi inet keystore
     class main
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
     oneshot
 
 service dhcpcd_wlan0 /system/bin/dhcpcd -aABDKL
-    class late start
+    class main
     disabled
     oneshot
 
 service dhcpcd_p2p /system/bin/dhcpcd -aABKL
-    class late start
+    class main
     disabled
     oneshot
 
 service dhcpcd_bt-pan /system/bin/dhcpcd -ABKL
-    class late start
+    class main
     disabled
     oneshot
 
 service dhcpcd_eth0 /system/bin/dhcpcd -ABDKL
-    class late start
+    class main
     disabled
     oneshot
 
 service iprenew_wlan0 /system/bin/dhcpcd -n
-    class late start
+    class main
     disabled
     oneshot
 
 service iprenew_p2p /system/bin/dhcpcd -n
-    class late start
+    class main
     disabled
     oneshot
 
 service iprenew_bt-pan /system/bin/dhcpcd -n
-    class late start
+    class main
     disabled
     oneshot
 
