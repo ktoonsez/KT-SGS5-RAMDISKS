@@ -320,7 +320,7 @@ on post-fs-data
     mkdir /data/security 0711 system system
 
     # Reload policy from /data/security if present.
-    setprop selinux.reload_policy 0
+    setprop selinux.reload_policy 1
 
     # Set SELinux security contexts on upgrade or policy update.
     restorecon_recursive /data
@@ -610,7 +610,7 @@ service installd /system/bin/installd
     class main
     socket installd stream 600 system system
 
-service flash_recovery /system/etc/install-cm-recovery.sh
+service flash_recovery /system/bin/install-recovery.sh
     class main
     seclabel u:r:install_recovery:s0
     oneshot
