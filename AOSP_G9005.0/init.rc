@@ -320,7 +320,7 @@ on post-fs-data
     mkdir /data/security 0711 system system
 
     # Reload policy from /data/security if present.
-    setprop selinux.reload_policy 1
+    setprop selinux.reload_policy 0
 
     # Set SELinux security contexts on upgrade or policy update.
     restorecon_recursive /data
