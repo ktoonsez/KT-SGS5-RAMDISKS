@@ -124,6 +124,10 @@ wifi                                      u:object_r:system_server_service:s0
 window                                    u:object_r:system_server_service:s0
 
 *                                         u:object_r:default_android_service:s0
+#line 1 "vendor/samsung/common/sepolicy/BSP/bsp_qcom/qcom_common/service_contexts"
+############ compatible for bsp policy #############
+cneservice                                   u:object_r:system_app_service:s0
+vendor.qcom.PeripheralManager                  u:object_r:per_mgr_service:s0
 #line 1 "vendor/samsung/common/sepolicy/service_contexts"
 ############ aosp and sec_common #############
 com.samsung.android.jam.IAPAClient          u:object_r:apaservice_service:s0
@@ -152,17 +156,19 @@ handset                                     u:object_r:nfc_service:s0
 nfccontroller                               u:object_r:nfc_service:s0
 offhostservice                              u:object_r:nfc_service:s0
 secontroller                                u:object_r:nfc_service:s0
+hermesservice                               u:object_r:platform_app_service:s0
+penableservice                              u:object_r:platform_app_service:s0
 isprintextension                            u:object_r:radio_service:s0
 radio.simphonebook                          u:object_r:radio_service:s0
 phoneext                                    u:object_r:radio_service:s0
 phoneext2                                   u:object_r:radio_service:s0
 sensorhubservice                            u:object_r:sensorhubservice_service:s0
+vendor.enea.Buffer_GL                       u:object_r:surfaceflinger_service:s0
 batterymanager                              u:object_r:system_app_service:s0
 clipboarduiservice                          u:object_r:system_app_service:s0
+com.sc.scservice.ISCServiceFactory          u:object_r:system_app_service:s0
 emergency_service                           u:object_r:system_app_service:s0
 fingerprint_service                         u:object_r:system_app_service:s0
-hermesservice                               u:object_r:system_app_service:s0
-penableservice                              u:object_r:system_app_service:s0
 application_policy                          u:object_r:system_server_service:s0
 ABTPersistenceService                       u:object_r:system_server_service:s0
 barbeam                                     u:object_r:system_server_service:s0
@@ -181,6 +187,7 @@ device_info                                 u:object_r:system_server_service:s0
 DigitalPen                                  u:object_r:system_server_service:s0
 DirEncryptService                           u:object_r:system_server_service:s0
 download                                    u:object_r:system_server_service:s0
+dualscreen                                  u:object_r:system_server_service:s0
 epdg                                        u:object_r:system_server_service:s0
 FMPlayer                                    u:object_r:system_server_service:s0
 harmony_eas_service                         u:object_r:system_server_service:s0
@@ -190,6 +197,8 @@ keyguard                                    u:object_r:system_server_service:s0
 kiesusb                                     u:object_r:system_server_service:s0
 layout_inflater                             u:object_r:system_server_service:s0
 log_manager_service                         u:object_r:system_server_service:s0
+lpnet                                       u:object_r:system_server_service:s0
+LSManager                                   u:object_r:system_server_service:s0
 magazinecardservice                         u:object_r:system_server_service:s0
 mDNIe                                       u:object_r:system_server_service:s0
 mini_mode_app_manager                       u:object_r:system_server_service:s0
@@ -197,10 +206,10 @@ motion_recognition                          u:object_r:system_server_service:s0
 msapwifi                                    u:object_r:system_server_service:s0
 multiwindow                                 u:object_r:system_server_service:s0
 multiwindow_facade                          u:object_r:system_server_service:s0
-OemExtendedApi3LM                           u:object_r:system_server_service:s0
 ReactiveService                             u:object_r:system_server_service:s0
 quickconnect                                u:object_r:system_server_service:s0
 remoteinjection                             u:object_r:system_server_service:s0
+saccessory_manager                          u:object_r:system_server_service:s0
 samsung.smartfaceservice                    u:object_r:system_server_service:s0
 samsung_overlay                             u:object_r:system_server_service:s0
 sb_service                                  u:object_r:system_server_service:s0
@@ -279,6 +288,7 @@ firewall_policy                             u:object_r:system_server_service:s0
 genericssoservice                           u:object_r:system_server_service:s0
 generic_vpn_policy                          u:object_r:system_server_service:s0
 geofencing                                  u:object_r:system_server_service:s0
+irm_service                                 u:object_r:system_server_service:s0
 kioskmode                                   u:object_r:system_server_service:s0
 knoxcustom                                  u:object_r:system_server_service:s0
 knox_ccm_policy                             u:object_r:system_server_service:s0
@@ -295,6 +305,7 @@ misc_policy                                 u:object_r:system_server_service:s0
 multi_user_manager_service                  u:object_r:system_server_service:s0
 mum_container_policy                        u:object_r:system_server_service:s0
 mum_container_rcp_policy                    u:object_r:system_server_service:s0
+otp_service                                 u:object_r:system_server_service:s0
 password_policy                             u:object_r:system_server_service:s0
 persona                                     u:object_r:system_server_service:s0
 persona_policy                              u:object_r:system_server_service:s0
@@ -326,6 +337,7 @@ wbc_service                                 u:object_r:system_server_service:s0
 
 ############ slsi_common #############
 Exynos.HWCService                           u:object_r:surfaceflinger_service:s0
+media.wifi_display                          u:object_r:surfaceflinger_service:s0
 
 ############ carrier_common #############
 dmb.DMBFrmwrks                              u:object_r:dmb_service:s0
@@ -333,4 +345,12 @@ ktuca                                       u:object_r:system_server_service:s0
 VZW_LOCATION_SERVICE                        u:object_r:system_server_service:s0
 wifioffload                                 u:object_r:system_server_service:s0
 com.skt.tbase.INativeService                u:object_r:tbased_service:s0
-
+############ carrier_jpn
+# OSV models
+DeviceManager3LM                            u:object_r:system_server_service:s0
+OemExtendedApi3LM                           u:object_r:system_server_service:s0
+# Fullseg / Oneseg
+bml_engine                                  u:object_r:oneseg_mw_service:s0
+broadcast.ATSCMHProcessObserver             u:object_r:oneseg_mw_service:s0
+ISDtvService.SDtvStackService               u:object_r:oneseg_mw_service:s0
+broadcast.OneSegDsmcc                       u:object_r:oneseg_mw_service:s0

@@ -17,7 +17,6 @@ on early-boot
     chown system system /dev/block/mmcblk0p12
 
 on init
-    mkdir /preload 0771 system system
 #Private Mode
     mkdir /mnt/shell/privatemode 0700 system system
     mkdir /storage/Private 0000 system system
@@ -27,6 +26,10 @@ on post-fs-data
     mkdir /data/privatemode 0770 system system
     chown system system /data/privatemode
     restorecon /data/privatemode
+#ItsOn Property
+    mkdir /dev/socket/itson 02771 sprintitson sprintitson
+    mkdir /data/itson 02770 sprintitson sprintitson
+    start itsonbs
 
 on boot
 # permission for Input Device(Touchkey).
@@ -108,9 +111,7 @@ on fs
 on fs
 
   # Support Preload install apks
-    wait /dev/block/platform/msm_sdcc.1/by-name/hidden 
-    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/hidden /preload nosuid nodev ro barrier=1
-    setprop storage.preload.complete 1
+    mkdir /preload 0771 system system
 
 #For Absolute Persistence Partition
 
@@ -218,8 +219,12 @@ service ipsec-daemon /system/bin/IPSecService
     socket ipsec_socket stream 660 system system
     user system
     group system net_raw inet net_admin
-    
-    # service for TZPR provisioning version check app
+
+# ItsOn Service
+service itsonbs /system/vendor/itson/itson-bootstrapper.sh
+    oneshot
+    critical
+    seclabel u:r:itsonbs:s0
 
 service scranton_RD /system/bin/scranton_RD
 

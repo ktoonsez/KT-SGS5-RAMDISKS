@@ -253,16 +253,29 @@
 /dev/qseecom      u:object_r:qseecom_device:s0
 
 #Contexts for the qmux sockets
-/dev/socket/qmux_audio       u:object_r:qmux_audio_socket:s0
-/dev/socket/qmux_bluetooth(/.*)?   u:object_r:qmux_bluetooth_socket:s0
-/dev/socket/qmux_gps         u:object_r:qmux_gps_socket:s0
-/dev/socket/qmux_radio       u:object_r:qmux_radio_socket:s0
+#/dev/socket/qmux_audio       u:object_r:qmux_audio_socket:s0
+#/dev/socket/qmux_bluetooth(/.*)?   u:object_r:qmux_bluetooth_socket:s0
+#/dev/socket/qmux_gps         u:object_r:qmux_gps_socket:s0
+#/dev/socket/qmux_radio       u:object_r:qmux_radio_socket:s0
+/dev/socket/qmux_audio(/.*)?                    u:object_r:qmuxd_socket:s0
+/dev/socket/qmux_bluetooth(/.*)?                u:object_r:qmuxd_socket:s0
+/dev/socket/qmux_gps(/.*)?                      u:object_r:qmuxd_socket:s0
+/dev/socket/qmux_radio(/.*)?                    u:object_r:qmuxd_socket:s0
+
+/dev/socket/ims_qmid                            u:object_r:ims_socket:s0
+/dev/socket/ims_datad                           u:object_r:ims_socket:s0
+/dev/socket/ims_rtpd                            u:object_r:ims_socket:s0
+
+
+/dev/subsys_.*                                  u:object_r:ssr_device:s0
+/sys/bus/esoc(/.*)?                                                 u:object_r:sysfs_esoc:s0
+/sys/bus/msm_subsys(/.*)?                                           u:object_r:sysfs_ssr:s0
 
 #Context for irq balence
 /system/bin/msm_irqbalance u:object_r:msm_irqbalanced_exec:s0
 
 #Context for the logging
-#/dev/diag     u:object_r:diag_device:s0
+/dev/diag     u:object_r:diag_device:s0
 /system/bin/test_diag            u:object_r:diag_exec:s0
 /system/bin/PktRspTest           u:object_r:diag_exec:s0
 /system/bin/diag_callback_client u:object_r:diag_exec:s0
@@ -270,7 +283,7 @@
 /system/bin/diag_klog            u:object_r:diag_exec:s0
 /system/bin/diag_mdlog           u:object_r:diag_exec:s0
 /system/bin/diag_socket_log      u:object_r:diag_exec:s0
-#/system/bin/diag_uart_log        u:object_r:diag_exec:s0
+/system/bin/diag_uart_log        u:object_r:diag_exec:s0
 /system/bin/diag_qshrink4_daemon u:object_r:diag_exec:s0
 /data/diag_log(/.*)?             u:object_r:diag_data_file:s0
 
@@ -302,7 +315,7 @@
 /dev/smd.*  	 	   u:object_r:smd_device:s0
 /system/bin/irsc_util	   u:object_r:irsc_util_exec:s0
 # Persist filesystem
-#/persist(/.*)?             u:object_r:persist_file:s0
+/persist(/.*)?             u:object_r:persist_file:s0
 
 /dev/subsys_esoc0          u:object_r:subsys_esoc0_device:s0
 
@@ -362,6 +375,11 @@
 # System files
 #/system/bin/rmt_storage       u:object_r:rmt_storage_exec:s0
 #/system/bin/rfs_access        u:object_r:rfs_access_exec:s0
+/system/bin/pm-service                          u:object_r:per_mgr_exec:s0
+/system/bin/wpa_cli                             u:object_r:wcnss_service_exec:s0
+/system/bin/cnss-daemon                         u:object_r:wcnss_service_exec:s0
+/system/bin/wcnss_filter                       u:object_r:wcnss_service_exec:s0
+/system/bin/cld-fwlog-netlink                       u:object_r:wcnss_service_exec:s0
 
 # Storage RFS files
 /system/rfs.*                 u:object_r:rfs_system_file:s0
@@ -407,6 +425,66 @@
 #Added for fm_radio  device
 /dev/radio0                   u:object_r:fm_radio_device:s0
 
+#line 1 "vendor/samsung/common/sepolicy/BSP/bsp_qcom/qcom_common/file_contexts"
+
+############################# 
+# addional label of bsp_qcom
+#
+
+/data/misc/location(/.*)?	u:object_r:gps_data_file:s0
+
+/dev/block/mmcblk0rpmb	u:object_r:mmcblk0rpmb_device:s0
+/dev/block/platform/msm_sdcc.1/by-name/modemst[1-2]*	u:object_r:emmcblk_device:s0
+/dev/block/platform/msm_sdcc.1/by-name/ssd	u:object_r:emmcblk_device:s0
+
+/dev/efs_bridge	                u:object_r:radio_device:s0
+/dev/efs_hsic_bridge            u:object_r:radio_device:s0
+/dev/esoc-[0-9]*                u:object_r:esoc_device:s0
+/dev/hsicctl[0-3]*	        u:object_r:qmuxd_device:s0
+/dev/jpeg[0-2]*		        u:object_r:camera_device:s0
+/dev/ks_bridge	                u:object_r:radio_device:s0
+/dev/ks_hsic_bridge	        u:object_r:radio_device:s0
+/dev/media[0-3]*	        u:object_r:camera_device:s0
+/dev/rmnet_mux_ctrl	        u:object_r:radio_device:s0
+
+/dev/socket/pps	                u:object_r:pps_socket:s0
+/dev/subsys_esoc[0-9]*          u:object_r:esoc_device:s0
+/dev/ttyHSL[0-9]*	        u:object_r:radio_device:s0
+/dev/wcnss_wlan	                u:object_r:wifi_device:s0
+
+/system/bin/adsprpcd	        u:object_r:adsprpcd_exec:s0
+/system/bin/charger_monitor	u:object_r:charger_monitor_exec:s0
+/system/bin/dpmd	        u:object_r:dpmd_exec:s0
+/system/bin/gpsone_daemon	u:object_r:gpsone_daemon_exec:s0
+/system/bin/gsiff_daemon	u:object_r:gsiff_daemon_exec:s0
+/system/bin/imsqmidaemon	u:object_r:imsqmidaemon_exec:s0
+/system/bin/ks	                u:object_r:ks_exec:s0
+/system/bin/location-mq	        u:object_r:location-mq_exec:s0
+/system/bin/lowi-server		u:object_r:lowi-server_exec:s0
+/system/bin/mdm_helper	        u:object_r:mdm_helper_exec:s0
+/system/bin/mdm_helper_proxy	u:object_r:mdm_helper_proxy_exec:s0
+/system/bin/mm-pp-daemon	u:object_r:mm-pp-daemon_exec:s0
+/system/bin/mm-qcamera-daemon	u:object_r:mm-qcamera-daemon_exec:s0
+/system/bin/mpdecision	        u:object_r:mpdecision_exec:s0
+/system/bin/qcom-system-daemon	u:object_r:qcom-system-daemon_exec:s0
+/system/bin/qseecomd	        u:object_r:qseecomd_exec:s0
+/system/bin/quipc_igsn		u:object_r:quipc_igsn_exec:s0
+/system/bin/quipc_main		u:object_r:quipc_main_exec:s0
+/system/bin/rfs_access	        u:object_r:rfs_access_exec:s0
+/system/bin/rmt_storage	        u:object_r:rmt_storage_exec:s0
+/system/bin/ssr_diag	u:object_r:ssr_diag_exec:s0
+/system/bin/time_daemon	u:object_r:time_daemon_exec:s0
+/system/bin/wcnss_service	u:object_r:wcnss_service_exec:s0
+
+############################# 
+# addional labels from bsp_qcom_v1
+#
+/system/bin/loc_launcher                        u:object_r:location_exec:s0
+/system/bin/imsdatadaemon                       u:object_r:ims_exec:s0
+/system/bin/ims_rtp_daemon                      u:object_r:ims_exec:s0
+/system/vendor/bin/slim_ap_daemon               u:object_r:location_exec:s0
+
+
 #line 1 "vendor/samsung/common/sepolicy/vmware/file_contexts"
 # VMware daemon
 /system/bin/mvpd	u:object_r:vmwared_exec:s0
@@ -432,11 +510,13 @@
 /dev/block/mmcblk1p1    u:object_r:emmcblk_device:s0
 # remove this label because of selabel_lookup_best_match /dev/block/platform/dw_mmc.*    u:object_r:dw_mmc_device:s0
 /dev/block/platform/msm_sdcc.1/by-name/param		u:object_r:emmcblk_device:s0
+/dev/block/sd[a-z][0-9]*    u:object_r:emmcblk_device:s0
 /dev/block/vnswap0		u:object_r:swap_device:s0
 /dev/bus/usb(/.*)?      u:object_r:usb_bus_device:s0
-/dev/diag	u:object_r:diag_device:s0
+/dev/cdma_.*		u:object_r:radio_device:s0
+# conflict with Qcom BSP, /dev/diag	u:object_r:diag_device:s0
 /dev/i2c.*		u:object_r:i2c_device:s0
-/dev/media[0-3]*	u:object_r:camera_device:s0
+# conflict with Qcom BSP, /dev/media[0-3]*	u:object_r:camera_device:s0
 /dev/mobicore	u:object_r:mobicore_device:s0
 /dev/mobicore-user	u:object_r:mobicore-user_device:s0
 /dev/ovr[0-9]*		u:object_r:ovr_device:s0
@@ -481,6 +561,7 @@
 /dev/dek_log	u:object_r:knox_dar_device:s0
 /dev/dek_req	u:object_r:knox_dar_device:s0
 /dev/sdp_mm	u:object_r:knox_dar_device:s0
+/dev/knox_kap	u:object_r:knox_kap_device:s0
 
 ############################# 
 # Device node of qcom_common
@@ -488,31 +569,28 @@
 /dev/adnc[0-9]*		u:object_r:adnc_device:s0
 /dev/android_rndis_qc	u:object_r:radio_device:s0
 /dev/audience_a2220	u:object_r:audio_device:s0
-/dev/block/mmcblk0rpmb	u:object_r:mmcblk0rpmb_device:s0
+# conflict with Qcom BSP, /dev/block/mmcblk0rpmb	u:object_r:mmcblk0rpmb_device:s0
 /dev/block/platform/msm_sdcc.1/by-name/fsg	u:object_r:fsg_device:s0
 /dev/block/platform/msm_sdcc.1/by-name/m9kefs[0-3]*	u:object_r:emmcblk_device:s0
 /dev/block/platform/msm_sdcc.1/by-name/modem	u:object_r:modem_device:s0
-/dev/block/platform/msm_sdcc.1/by-name/modemst[1-2]*	u:object_r:emmcblk_device:s0
-/dev/block/platform/msm_sdcc.1/by-name/ssd	u:object_r:emmcblk_device:s0
+# conflict with Qcom BSP, /dev/block/platform/msm_sdcc.1/by-name/modemst[1-2]*	u:object_r:emmcblk_device:s0
+# conflict with Qcom BSP, /dev/block/platform/msm_sdcc.1/by-name/ssd	u:object_r:emmcblk_device:s0
 /dev/btlock	u:object_r:hci_attach_dev:s0
 #####/dev/btlock			u:object_r:bluetooth_device:s0 
 #ciq_bridge PLM
 /dev/ciq_bridge         u:object_r:ciqbridge_device:s0
 /dev/dun	u:object_r:dun_device:s0
-/dev/efs_bridge	u:object_r:radio_device:s0
-/dev/efs_hsic_bridge u:object_r:radio_device:s0
-/dev/esoc-[0-9]*       u:object_r:esoc_device:s0
+# conflict with Qcom BSP, /dev/efs_bridge	u:object_r:radio_device:s0
+# conflict with Qcom BSP, /dev/efs_hsic_bridge u:object_r:radio_device:s0
+# conflict with Qcom BSP, /dev/esoc-[0-9]*       u:object_r:esoc_device:s0
 /dev/gemini0	u:object_r:camera_device:s0
 /dev/genlock	u:object_r:genlock_device:s0
-/dev/gsm_ipc0	u:object_r:radio_device:s0
-/dev/gsm_boot0	u:object_r:radio_device:s0
-/dev/gsm_multi_pdp      u:object_r:radio_device:s0
-/dev/gsm_rfs0           u:object_r:radio_device:s0
-/dev/hsicctl[0-3]*	u:object_r:qmuxd_device:s0
-/dev/jpeg[0-2]*		u:object_r:camera_device:s0
+/dev/gsm_.*	u:object_r:radio_device:s0
+# conflict with Qcom BSP, /dev/hsicctl[0-3]*	u:object_r:qmuxd_device:s0
+# conflict with Qcom BSP, /dev/jpeg[0-2]*		u:object_r:camera_device:s0
 /dev/kgsl-[0-9a-z]*   u:object_r:kgsl_device:s0
-/dev/ks_bridge	u:object_r:radio_device:s0
-/dev/ks_hsic_bridge	u:object_r:radio_device:s0
+# conflict with Qcom BSP, /dev/ks_bridge	u:object_r:radio_device:s0
+# conflict with Qcom BSP, /dev/ks_hsic_bridge	u:object_r:radio_device:s0
 /dev/mdm	u:object_r:radio_device:s0
 #####/dev/mdm			u:object_r:mdm_device:s0
 /dev/msm_aac	u:object_r:audio_device:s0
@@ -543,29 +621,35 @@
 /dev/pmem_audio u:object_r:audio_device:s0
 /dev/qemu_.*		u:object_r:qemu_device:s0
 /dev/qmi[0-9]*	u:object_r:radio_device:s0
-/dev/rmnet_mux_ctrl	u:object_r:radio_device:s0
+# conflict with Qcom BSP, /dev/rmnet_mux_ctrl	u:object_r:radio_device:s0
 /dev/rtc[0-9]*	u:object_r:clock_device:s0
 /dev/smd_cxm_qmi	u:object_r:smd_cxm_qmi_device:s0
 /dev/smdcntl[0-9]*	u:object_r:smd_cntl_device:s0
 /dev/socket/audio	u:object_r:audio_socket:s0
 /dev/socket/mpctl	u:object_r:mpctl_socket:s0
 /dev/socket/mpdecision(/.*)?	u:object_r:mpdecision_socket:s0
-/dev/socket/pps	u:object_r:pps_socket:s0
+# conflict with Qcom BSP, /dev/socket/pps	u:object_r:pps_socket:s0
 /dev/socket/radio	u:object_r:radio_socket:s0
-/dev/subsys_esoc[0-9]*       u:object_r:esoc_device:s0
+# conflict with Qcom BSP, /dev/subsys_esoc[0-9]*       u:object_r:esoc_device:s0
 /dev/tspdrv	u:object_r:vibrator_device:s0
-/dev/ttyHSL[0-9]*	u:object_r:radio_device:s0
+# conflict with Qcom BSP, /dev/ttyHSL[0-9]*	u:object_r:radio_device:s0
 /dev/usf1	u:object_r:usf_device:s0
 /dev/umts_ipc0	u:object_r:radio_device:s0
 /dev/v4l-subdev[0-9]*	u:object_r:camera_device:s0
 #####/dev/v4l-subdev[0-9]*	u:object_r:video_device:s0
-/dev/wcnss_wlan	u:object_r:wifi_device:s0
+# conflict with Qcom BSP, /dev/wcnss_wlan	u:object_r:wifi_device:s0
 
 ############################# 
 # Device node of slsi_common
 #
 /dev/akm8963		u:object_r:akm8963_device:s0
 /dev/b.L.*			u:object_r:ap_device:s0
+/dev/bbd_control	u:object_r:bbd_device:s0
+/dev/bbd_packet		u:object_r:bbd_device:s0
+/dev/bbd_patch		u:object_r:bbd_device:s0
+/dev/bbd_reliable	u:object_r:bbd_device:s0
+/dev/bbd_sensor		u:object_r:bbd_device:s0
+/dev/bbd_sio		u:object_r:bbd_device:s0
 /dev/bL.*			u:object_r:ap_device:s0
 /dev/block/modem(/.*)?	u:object_r:modem_device:s0
 /dev/cpu.*			u:object_r:ap_device:s0
@@ -580,8 +664,9 @@
 # exynos5433 libhw1shotjpm1 and libscaler
 /dev/m2m1shot_jpeg	u:object_r:m2m1shot_device:s0
 /dev/m2m1shot_scaler.*	u:object_r:m2m1shot_device:s0
-/dev/mali.*	u:object_r:video_device:s0
-/dev/mbin.*	u:object_r:mbin_device:s0
+/dev/mali	u:object_r:gpu_device:s0
+/dev/mali[0-9]	u:object_r:gpu_device:s0
+/dev/mbin[0-9]	u:object_r:mbin_device:s0
 /dev/mdns			u:object_r:mdns_device:s0
 /dev/multipdp			u:object_r:multipdp_device:s0 
 /dev/psaux			u:object_r:psaux_device:s0
@@ -591,6 +676,7 @@
 /dev/seiren		u:object_r:seiren_device:s0
 /dev/srp		u:object_r:srp_device:s0
 /dev/sw_sync	u:object_r:sync_device:s0
+/dev/ttyBCM[0-9]*   u:object_r:bbd_device:s0
 /dev/ttySAC[0-9]*	u:object_r:uart_device:s0
 /dev/umts.*			u:object_r:mif_device:s0 
 
@@ -604,8 +690,8 @@
 /sys/class/power_supply/battery/music -- u:object_r:sysfs_music_power_writable:s0
 /sys/class/rfkill/rfkill[0-9]*/state -- u:object_r:sysfs_bluetooth_writable:s0
 /sys/class/rfkill/rfkill[0-9]*/type -- u:object_r:sysfs_bluetooth_writable:s0
-/sys/class/sec(/.*)?                                 u:object_r:sysfs_sec:s0
-/sys/devices/virtual/sec(/.*)?                       u:object_r:sysfs_sec:s0
+/sys/class/sec(/.*)?                --               u:object_r:sysfs_sec:s0
+/sys/devices/virtual/sec(/.*)?      --               u:object_r:sysfs_sec:s0
 /sys/qemu_trace(/.*)?	--	u:object_r:sysfs_writable:s0
 
 
@@ -613,7 +699,7 @@
 ############################# 
 # System files of sec_common
 # 
-/system/bin/actlmand	u:object_r:actlmand_exec:s0
+/system/bin/reactived	u:object_r:actlmand_exec:s0
 /system/bin/androidshmservice	u:object_r:androidshmservice_exec:s0
 /system/bin/apaservice		u:object_r:apaservice_exec:s0
 /system/bin/app_process	u:object_r:zygote_exec:s0
@@ -628,7 +714,7 @@
 /system/bin/createsystemfile	u:object_r:createsystemfile_exec:s0
 /system/bin/cs				u:object_r:cs_exec:s0
 /system/bin/ddexe	u:object_r:ddexe_exec:s0
-/system/bin/diag_uart_log	u:object_r:diag_uart_log_exec:s0
+# conflict with Qcom BSP, /system/bin/diag_uart_log	u:object_r:diag_uart_log_exec:s0
 /system/bin/dttexe	u:object_r:dttexe_exec:s0
 /system/bin/dumpsys	u:object_r:dumpsys_exec:s0
 /system/bin/icd	u:object_r:icd_exec:s0
@@ -648,6 +734,7 @@
 /system/bin/pppoewrapper        u:object_r:pppoewrapper_exec:s0
 /system/bin/prepare_param.sh	u:object_r:prepare_param_sh_file:s0
 /system/bin/samsungpowersoundplay	u:object_r:samsungpowersoundplay_exec:s0
+/system/bin/scs			u:object_r:scs_exec:s0
 /system/bin/sdp_cryptod			u:object_r:sdp_cryptod_exec:s0
 /system/bin/sec-ril	u:object_r:sec-ril_exec:s0
 /system/bin/secure_storage_daemon	u:object_r:secure_storage_exec:s0
@@ -663,7 +750,7 @@
 /system/bin/tlc_server	u:object_r:tlc_server_exec:s0
 /system/bin/vcsFPService	u:object_r:vcsFPService_exec:s0
 /system/bin/vfmService		u:object_r:vcsFPService_exec:s0
-/system/bin/wcnss_service	u:object_r:wcnss_service_exec:s0
+# conflict with Qcom BSP, /system/bin/wcnss_service	u:object_r:wcnss_service_exec:s0
 /system/bin/wpa_supplicant_real u:object_r:wpa_exec:s0
 
 /system/etc/event-log-tags	u:object_r:event_log_tags_file:s0
@@ -684,55 +771,61 @@
 ############################# 
 # System files of qcom_common
 # 
-/system/bin/adsprpcd	u:object_r:adsprpcd_exec:s0
-/system/bin/charger_monitor	u:object_r:charger_monitor_exec:s0
-/system/bin/dpmd	u:object_r:dpmd_exec:s0
+# conflict with Qcom BSP, /system/bin/adsprpcd	u:object_r:adsprpcd_exec:s0
+# conflict with Qcom BSP, /system/bin/charger_monitor	u:object_r:charger_monitor_exec:s0
+# conflict with Qcom BSP, /system/bin/dpmd	u:object_r:dpmd_exec:s0
 /system/bin/efsks	u:object_r:efsks_exec:s0
 /system/bin/geomagneticd u:object_r:geomagneticd_exec:s0
-/system/bin/gpsone_daemon	u:object_r:gpsone_daemon_exec:s0
+# conflict with Qcom BSP, /system/bin/gpsone_daemon	u:object_r:gpsone_daemon_exec:s0
 /system/bin/gpu_snapshotd	u:object_r:gpu_snapshotd_exec:s0
-/system/bin/gsiff_daemon	u:object_r:gsiff_daemon_exec:s0
-/system/bin/imsqmidaemon	u:object_r:imsqmidaemon_exec:s0
-/system/bin/ks	u:object_r:ks_exec:s0
-/system/bin/location-mq	u:object_r:location-mq_exec:s0
-/system/bin/lowi-server		u:object_r:lowi-server_exec:s0
+# conflict with Qcom BSP, /system/bin/gsiff_daemon	u:object_r:gsiff_daemon_exec:s0
+# conflict with Qcom BSP, /system/bin/imsqmidaemon	u:object_r:imsqmidaemon_exec:s0
+# conflict with Qcom BSP, /system/bin/ks	u:object_r:ks_exec:s0
+# conflict with Qcom BSP, /system/bin/location-mq	u:object_r:location-mq_exec:s0
+# conflict with Qcom BSP, /system/bin/lowi-server		u:object_r:lowi-server_exec:s0
 /system/bin/macloader	u:object_r:macloader_exec:s0
 /system/bin/mcDriverDaemon	u:object_r:mobicoredaemon_exec:s0
 /system/bin/mcDriverDaemonQC	u:object_r:mobicoredaemon_exec:s0
-/system/bin/mdm_helper	u:object_r:mdm_helper_exec:s0
-/system/bin/mdm_helper_proxy	u:object_r:mdm_helper_proxy_exec:s0
+# conflict with Qcom BSP, /system/bin/mdm_helper	u:object_r:mdm_helper_exec:s0
+# conflict with Qcom BSP, /system/bin/mdm_helper_proxy	u:object_r:mdm_helper_proxy_exec:s0
 /system/bin/mfgloader	u:object_r:mfgloader_exec:s0
-/system/bin/mm-pp-daemon	u:object_r:mm-pp-daemon_exec:s0
-/system/bin/mm-qcamera-daemon	u:object_r:mm-qcamera-daemon_exec:s0
-/system/bin/mpdecision	u:object_r:mpdecision_exec:s0
+# conflict with Qcom BSP, /system/bin/mm-pp-daemon	u:object_r:mm-pp-daemon_exec:s0
+# conflict with Qcom BSP, /system/bin/mm-qcamera-daemon	u:object_r:mm-qcamera-daemon_exec:s0
+# conflict with Qcom BSP, /system/bin/mpdecision	u:object_r:mpdecision_exec:s0
 /system/bin/ptt_socket_app	u:object_r:ptt_socket_app_exec:s0
 /system/bin/qcks	u:object_r:qcks_exec:s0
-/system/bin/qcom-system-daemon	u:object_r:qcom-system-daemon_exec:s0
+# conflict with Qcom BSP, /system/bin/qcom-system-daemon	u:object_r:qcom-system-daemon_exec:s0
 /system/bin/qemud	u:object_r:qemud_exec:s0
 /system/bin/qmiproxy	u:object_r:qmiproxy_exec:s0
 /system/bin/qosmgr	u:object_r:qosmgr_exec:s0
 /system/bin/qrngd	u:object_r:qrngd_exec:s0
-/system/bin/qseecomd	u:object_r:qseecomd_exec:s0
-/system/bin/quipc_igsn		u:object_r:quipc_igsn_exec:s0
-/system/bin/quipc_main		u:object_r:quipc_main_exec:s0
-/system/bin/rfs_access	u:object_r:rfs_access_exec:s0
-/system/bin/rmt_storage	u:object_r:rmt_storage_exec:s0
+# conflict with Qcom BSP, /system/bin/qseecomd	u:object_r:qseecomd_exec:s0
+# conflict with Qcom BSP, /system/bin/quipc_igsn		u:object_r:quipc_igsn_exec:s0
+# conflict with Qcom BSP, /system/bin/quipc_main		u:object_r:quipc_main_exec:s0
+# conflict with Qcom BSP, /system/bin/rfs_access	u:object_r:rfs_access_exec:s0
+# conflict with Qcom BSP, /system/bin/rmt_storage	u:object_r:rmt_storage_exec:s0
 /system/bin/scranton_RD	u:object_r:playready_exec:s0
 /system/bin/secstarter	u:object_r:secstarter_exec:s0
-/system/bin/ssr_diag	u:object_r:ssr_diag_exec:s0
+# conflict with Qcom BSP, /system/bin/ssr_diag	u:object_r:ssr_diag_exec:s0
 /system/bin/thermald u:object_r:thermald_exec:s0
-/system/bin/time_daemon	u:object_r:time_daemon_exec:s0
+# conflict with Qcom BSP, /system/bin/time_daemon	u:object_r:time_daemon_exec:s0
 /system/bin/wiperiface		u:object_r:wiperiface_exec:s0
 /system/bin/wlandutservice	u:object_r:wlandutservice_exec:s0
 
 ############################# 
 # System files of slsi_common
 # 
+/system/bin/argosd      u:object_r:argosd_exec:s0
 /system/bin/brcm_patchram_plus	u:object_r:brcm_patchram_plus_exec:s0
+/system/bin/bridge_relay         u:object_r:debug_interface_proxy_exec:s0
+/system/bin/debug_interface_proxy	u:object_r:debug_interface_proxy_exec:s0
 /system/bin/diagexe     u:object_r:diagexe_exec:s0
 /system/bin/exyrngd     u:object_r:exyrngd_exec:s0
 /system/bin/gpsd        u:object_r:gpsd_exec:s0 
+/system/bin/lhd         u:object_r:lhd_exec:s0 
+/system/bin/mld         u:object_r:debug_interface_proxy_exec:s0
 /system/bin/mlexe    u:object_r:mlexe_exec:s0 
+/system/bin/mmd         u:object_r:debug_interface_proxy_exec:s0
 /system/etc/security/.drm	u:object_r:drm_security_system_file:s0
 /system/etc/ymc/setup	u:object_r:setup_ymc_etc_system_file:s0
 /system/lib/drm			u:object_r:drm_lib_system_file:s0
@@ -782,7 +875,7 @@
 # DATA file of qcom_common
 #
 /data/misc/gpsone_d(/.*)?	u:object_r:gps_data_file:s0
-/data/misc/location(/.*)?	u:object_r:gps_data_file:s0
+# conflict with Qcom BSP, /data/misc/location(/.*)?	u:object_r:gps_data_file:s0
 /data/time(/.*)?	u:object_r:time_data_file:s0
 
 ############################# 
@@ -793,6 +886,7 @@
 /efs/FactoryApp(/.*)?	u:object_r:app_efs_file:s0
 /efs/imei(/.*)?	u:object_r:imei_efs_file:s0
 /efs/wifi(/.*)?	u:object_r:wifi_efs_file:s0
+/efs_gsm(/.*)?            u:object_r:efs_gsm_file:s0
 
 ############################# 
 # EFS file of qcom_common
@@ -812,7 +906,7 @@
 /hidden(/.*)?	u:object_r:hidden_file:s0
 /persdata(/.*)?	u:object_r:persdata_data_file:s0
 /persdata/absolute(/.*)? 	u:object_r:abt_pers_data_file:s0
-/persist(/.*)?   u:object_r:persist_data_file:s0
+# conflict with Qcom BSP, /persist(/.*)?   u:object_r:persist_data_file:s0
 /preload(/.*)? u:object_r:hidden_file:s0
 /tombstone(/.*)?   u:object_r:tombstone_data_file:s0
 /tombstones(/.*)?   u:object_r:tombstone_data_file:s0
@@ -853,5 +947,7 @@
 /system/vendor/itson(/.*)?  u:object_r:sprintitson_file:s0
 #/vendor/app(/.*)?  u:object_r:sprintitson_file:s0
 /carrier/itson(/.*)?  u:object_r:sprintitson_file:s0
+/dev/socket/itson(/.*)?                    u:object_r:itson_socket:s0
+/data/itson(/.*)?     u:object_r:sprintitson_file:s0
 /system/vendor/itson/itson-bootstrapper.sh	u:object_r:itsonbs_exec:s0
 
