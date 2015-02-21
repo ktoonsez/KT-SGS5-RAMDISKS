@@ -32,6 +32,9 @@ on post-fs-data
     start itsonbs
 
 on boot
+# MUIC
+    chown system radio /sys/class/sec/switch/mmd_en
+
 # permission for Input Device(Touchkey).
     chmod 0660 /sys/class/input/input1/enabled
     chown system system /sys/class/input/input1/enabled
@@ -126,6 +129,12 @@ on fs
     chmod 0755 /persdata
     chown system system /persdata/absolute
     chmod 0750 /persdata/absolute
+
+# For Verizon Device Stats Partition
+    mkdir /vzw 0755 system system
+    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/carrier /vzw nosuid nodev barrier=1
+    chown system system /vzw
+    chmod 0755 /vzw
 
 # service for TZPR provisioning version check app
 service scranton_RD /system/bin/scranton_RD
@@ -258,3 +267,12 @@ service edmaudit /system/bin/edmaudit
     user root
 
 ## WTL_EDM_END
+
+# cooldown mode for lpm animation
+on charger
+    mkdir /vzw 0755 system system
+    wait /dev/block/platform/msm_sdcc.1/by-name/carrier
+    check_fs /dev/block/platform/msm_sdcc.1/by-name/carrier ext4
+    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/carrier /vzw nosuid nodev barrier=1
+    chown system system /vzw
+    chmod 0755 /vzw
