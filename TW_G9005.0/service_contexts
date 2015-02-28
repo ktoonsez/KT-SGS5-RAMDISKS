@@ -147,7 +147,6 @@ com.samsung.android.jam.IAPAClientMandolin  u:object_r:apaservice_service:s0
 com.samsung.android.jam.IAPAClientNaqara    u:object_r:apaservice_service:s0
 com.samsung.android.jam.IAPAClientOboe      u:object_r:apaservice_service:s0
 com.samsung.android.jam.IAPAService         u:object_r:apaservice_service:s0
-bio.BAuthService                            u:object_r:bauthserver_service:s0
 TvoutService_C                              u:object_r:bintvoutservice_service:s0
 com.samsung.android.jam.IAndroidShm         u:object_r:jackservice_service:s0
 com.samsung.android.jam.IJackService        u:object_r:jackservice_service:s0
@@ -311,7 +310,6 @@ password_policy                             u:object_r:system_server_service:s0
 persona                                     u:object_r:system_server_service:s0
 persona_policy                              u:object_r:system_server_service:s0
 persona_state_manager                       u:object_r:system_server_service:s0
-per_app_firewall_policy                     u:object_r:system_server_service:s0
 phone_restriction_policy                    u:object_r:system_server_service:s0
 rcp                                         u:object_r:system_server_service:s0
 restriction_policy                          u:object_r:system_server_service:s0
@@ -356,9 +354,3 @@ bml_engine                                  u:object_r:oneseg_mw_service:s0
 broadcast.ATSCMHProcessObserver             u:object_r:oneseg_mw_service:s0
 ISDtvService.SDtvStackService               u:object_r:oneseg_mw_service:s0
 broadcast.OneSegDsmcc                       u:object_r:oneseg_mw_service:s0
-stctl.service                               u:object_r:mmb_mw_service:s0
-stbml.service                               u:object_r:mmb_mw_service:s0
-strec.service                               u:object_r:mmb_mw_service:s0
-mmbfcmp4mw.player                           u:object_r:mmb_mw_service:s0
-fclicemwserver                              u:object_r:mmb_mw_service:s0
-streccm.service                             u:object_r:mmb_mw_service:s0

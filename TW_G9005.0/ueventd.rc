@@ -251,25 +251,3 @@ subsystem adf
 /sys/devices/f9968000.i2c/i2c-12/12-0068/iio:device* dmp_firmware						0660   system     radio
 /sys/devices/f9968000.i2c/i2c-12/12-0068/iio:device* pedometer_int_thresh				0660   system     radio
 /sys/devices/f9968000.i2c/i2c-12/12-0068/iio:device* pedometer_step_thresh				0660   system     radio
-#JPN FeliCa
-/dev/felica               0666    mfc   system
-/dev/felica_pon           0666    mfc   system
-/dev/felica_cen           0666    mfc   felicalock
-/dev/felica_rfs           0444    mfc   system
-/dev/felica_rws           0666    mfc   system
-/dev/felica_ant           0666    mfc   system
-/dev/felica_int_poll      0404    mfc   system
-/dev/felica_uid           0222    mfc   system
-/dev/felica_uicc          0666    mfc   system
-
-#JPN NFC
-/dev/ttyHSL2              0666    nfc       nfc
-/dev/snfc_uart            0666    nfc       nfc
-/dev/snfc_pon             0222    nfc       nfc
-/dev/snfc_cen             0444    nfc       system
-/dev/snfc_hsel            0666    nfc       nfc
-/dev/snfc_intu_poll       0444    nfc       nfc
-/dev/snfc_available_poll  0444    nfc       nfc
-/dev/snfc_rfs             0444    nfc       nfc
-/dev/snfc_rfs_poll        0444    nfc       nfc
-/dev/uartcc               0666    nfc       nfc
