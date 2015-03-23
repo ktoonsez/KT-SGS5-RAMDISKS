@@ -599,14 +599,14 @@
 /efs/prox_cal                                           u:object_r:sensors_efs_file:s0
 
 # Time
-/data/time/time.log	                                u:object_r:time_data_file:s0
+/data/time/time.log                                     u:object_r:time_data_file:s0
 
 # WiFi
 /data/.wifiver.info                                     u:object_r:wifi_data_file:s0
 /efs/wifi(/.*)?                                         u:object_r:wifi_efs_file:s0
 
 # Vold
-/etc/blkid.tab                                         u:object_r:system_file:s0
+/etc/blkid.tab                                          u:object_r:system_file:s0
 #line 1 "vendor/cm/sepolicy/file_contexts"
 /cache/dalvik-cache(/.*)? u:object_r:dalvikcache_data_file:s0
 
@@ -622,6 +622,7 @@
 /system/bin/sysinit       u:object_r:sysinit_exec:s0
 
 /system/etc/init.d/90userinit           u:object_r:userinit_exec:s0
+/data/local/userinit.sh                 u:object_r:userinit_data_exec:s0
 
 # For minivold in recovery
 /sbin/minivold            u:object_r:vold_exec:s0
