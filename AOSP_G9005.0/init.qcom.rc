@@ -73,6 +73,7 @@ on fs
     write /sys/devices/msm_sdcc.1/mmc_host/mmc1/power/control on
     write /sys/devices/msm_sdcc.3/mmc_host/mmc2/power/control on
 
+    exec /sbin/busybox sh /check_fs.sh
     mount_all fstab.qcom
 
     restorecon_recursive /efs

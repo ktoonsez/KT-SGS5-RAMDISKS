@@ -564,6 +564,8 @@
 #Context for mediaserver
 /data/display-tests/media(/.*)?                 u:object_r:display_test_media_file:s0
 #line 1 "device/samsung/klte-common/sepolicy/file_contexts"
+# Audience
+/dev/ttyHS3                                             u:object_r:serial_device:s0
 
 # Bluetooth
 /dev/btlock                                             u:object_r:bluetooth_device:s0
